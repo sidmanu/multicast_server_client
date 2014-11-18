@@ -1,5 +1,5 @@
 
-CC=gcc
+CC=/usr/bin/gcc
 CCFLAGS = -g -Wall -I.
 LIBS = -lpthread
 
@@ -19,4 +19,4 @@ client: $(CLIENT_OBJS)
 	$(CC) -o $@ $(CLIENT_OBJS) $(CCFLAGS) $(LIBS) 
 
 clean:
-	rm -rf *.o client server
+	rm -rf *.o client server *core*

@@ -5,16 +5,41 @@
 void *periodic_print_thread(void *t_args)
 {
     group_info *head = g_head;
+    int i = 0, j = 0;
     while(1)
     {
         head = g_head;
         sleep(10);
+        i = j = 0;
         while(head)
-        {         
-            printf("Client id:%d, message buff:[%s], group:%d \n",
-                    head->client_sockfd,
-                    head->client_message,
-                    head->group_id);
+        {        
+            if(head->group_id == 1)
+            {
+                if( 0 == i)
+                {
+                    printf("Group id : %d \n",head->group_id);
+                    i = 1;
+                }
+                printf("Client id:%d, message archive:[%s] \n",
+                        head->client_sockfd,
+                        head->client_message);
+            }    
+            head = head->next;
+        }
+        head = g_head;
+        while(head)
+        {
+            if(head->group_id == 2)
+            {
+                if( 0 == j)
+                {
+                    printf("Group id : %d \n",head->group_id);
+                    j = 1;
+                }
+                printf("Client id:%d, message archive:[%s] \n",
+                        head->client_sockfd,
+                        head->client_message);
+            }
             head = head->next;
         }
       
@@ -26,43 +51,46 @@ void *periodic_print_thread(void *t_args)
 void *client_handler_thread(void *t_args)
 {
     thread_arguments *args=(thread_arguments *)t_args;
-	int ret;
-	size_t rx_sz;
-	pkt_type type;
-	char *rx_buffer = NULL;
-	
-	while(1)
-	{
-     	ret = pkt_recv(args->client_sockfd, &rx_buffer, &rx_sz, &type);
+    int ret;
+    size_t rx_sz;
+    pkt_type type;
+    char *rx_buffer = NULL;
+    
+    while(1)
+    {
+        ret = pkt_recv(args->client_sockfd, &rx_buffer, &rx_sz, &type);
         
         /* if recv() returns -1 then some error occured while receiving,
          * if returns 0 client has disconnected,
          * else it will returns the number of bytes received
          */
         if(-1 == ret || !rx_buffer) {
-	    	perror("recv");
-	   		close(args->client_sockfd);
-    	   	break;
-     	}
-		//printf("One packet received!. Pkt type: %d Payload size: %zu\n", type, rx_sz);
+            perror("recv");
+            close(args->client_sockfd);
+            continue;
+        }
+        //printf("One packet received!. Pkt type: %d Payload size: %zu\n", type, rx_sz);
 
-		switch(type) {
-			case MSG_JOIN:
-				join_handler(args, rx_buffer, rx_sz, type);
-				break;
-			
-			case MSG_HELLO:
-				hello_handler(args, rx_buffer, rx_sz, type);
-				break;
-			
-			case MSG_QUIT:
-				quit_handler(args);	
-				break;
+        switch(type) {
+            case MSG_JOIN:
+                printf("Received MSG_JOIN\n");
+                join_handler(args, rx_buffer, rx_sz, type);
+                break;
+            
+            case MSG_HELLO:
+                printf("Received MSG_HELLO\n");
+                hello_handler(args, rx_buffer, rx_sz, type);
+                break;
+            
+            case MSG_QUIT:
+                printf("Received MSG_QUIT\n");
+                quit_handler(args); 
+                break;
 
-			default:
-				printf("Unknown packet!!!!");
-		}
-		free(rx_buffer);
-	}
-	assert(0);
+            default:
+                printf("Unknown packet!!!!");
+        }
+        free(rx_buffer);
+    }
+    assert(0);
 }

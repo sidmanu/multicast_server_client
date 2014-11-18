@@ -8,15 +8,19 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <signal.h>
 
 #include "common_hdr.h"
 
 static void *get_in_addr(struct sockaddr *sa);
+void sigint_handler(int s);
+void init_signal_handler();
+
+int sockfd;
 
 int main(int argc, char *argv[])
 
 {
-    int sockfd;
 	int numbytes;
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -24,6 +28,7 @@ int main(int argc, char *argv[])
     char s[INET6_ADDRSTRLEN];
 	char buf[MAXBUFFER];	
 
+    init_signal_handler();
     if (argc != 4) {
         fprintf(stderr,"usage: %s <server-port-num> <server-hostname>"
 				" <comma-separated-groups>\n",
@@ -73,7 +78,6 @@ int main(int argc, char *argv[])
     	if(-1 == numbytes)
         	perror("send");
 	}	
-    close(sockfd);
 
     return 0;
 }
@@ -88,3 +92,23 @@ static void *get_in_addr(struct sockaddr *sa)
 }
 
 
+void sigint_handler(int s)
+{
+   	pkt_send(sockfd, MSG_QUIT, 0, 0);
+    close(sockfd);
+    printf("Thanks for running the client. Exiting...\n");
+    exit(0);
+}
+
+void init_signal_handler()
+{
+    struct sigaction sa;
+
+    sigemptyset(&sa.sa_mask);
+    sa.sa_handler = sigint_handler;
+    if (-1 == sigaction(SIGINT, &sa, NULL)) {
+        perror("sigaction sigint");
+        exit(1);
+    }   
+    
+}
