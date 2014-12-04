@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
         perror("send");
 
 	while (1) {
-		printf("Type a message. (Max 50 chars):\n");
+		printf("Type a message. (Max 50 chars):, sending message to : %d \n", sockfd);
 		scanf("%50s", buf);
     	numbytes = pkt_send(sockfd, MSG_HELLO, buf, strlen(buf));
     	if(-1 == numbytes)

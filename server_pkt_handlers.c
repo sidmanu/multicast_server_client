@@ -8,7 +8,6 @@ void join_handler(thread_arguments *args,
 		printf("Client (fd: %d) requests to join group:\"%s\"\n", args->client_sockfd,
 						payload);
         /* Apply the lock for num_of_clients*/
-        pthread_mutex_lock(&num_of_active_clients_lock);
 		if (payload[0] == '1')
 		{
            	num_of_clients[0]++;
@@ -21,7 +20,6 @@ void join_handler(thread_arguments *args,
             args->client_info->group_id = 2;
 	   		printf("No. of clients in group %c : %d\n",payload[0],num_of_clients[1]);
 	  	}
-       	pthread_mutex_unlock(&num_of_active_clients_lock);
 
 }
 

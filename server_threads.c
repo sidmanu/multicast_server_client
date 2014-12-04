@@ -11,7 +11,16 @@ void *periodic_print_thread(void *t_args)
         head = g_head;
         sleep(10);
         i = j = 0;
+        
         while(head)
+        {         
+            printf("Client id:%d, message buff:[%s], group:%d \n",
+                    head->client_sockfd,
+                    head->client_message,
+                    head->group_id);
+            head = head->next;
+        }
+    /*    while(head)
         {        
             if(head->group_id == 1)
             {
@@ -20,7 +29,7 @@ void *periodic_print_thread(void *t_args)
                     printf("Group id : %d \n",head->group_id);
                     i = 1;
                 }
-                printf("Client id:%d, message archive:[%s] \n",
+                printf("Client id:%d, message buff:[%s] \n",
                         head->client_sockfd,
                         head->client_message);
             }    
@@ -36,13 +45,13 @@ void *periodic_print_thread(void *t_args)
                     printf("Group id : %d \n",head->group_id);
                     j = 1;
                 }
-                printf("Client id:%d, message archive:[%s] \n",
+                printf("Client id:%d, message buff:[%s] \n",
                         head->client_sockfd,
                         head->client_message);
             }
             head = head->next;
         }
-      
+    */
     }
     pthread_exit(NULL);
 }
@@ -73,17 +82,14 @@ void *client_handler_thread(void *t_args)
 
         switch(type) {
             case MSG_JOIN:
-                printf("Received MSG_JOIN\n");
                 join_handler(args, rx_buffer, rx_sz, type);
                 break;
             
             case MSG_HELLO:
-                printf("Received MSG_HELLO\n");
                 hello_handler(args, rx_buffer, rx_sz, type);
                 break;
             
             case MSG_QUIT:
-                printf("Received MSG_QUIT\n");
                 quit_handler(args); 
                 break;
 
