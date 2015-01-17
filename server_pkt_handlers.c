@@ -1,40 +1,62 @@
 #include "server.h"
+#include "server_db.h"
+#include "server_pkt_handlers.h"
+
+
 #include <pthread.h>
+#include <netinet/in.h>
 
-void join_handler(thread_arguments *args,
-			const char *payload, const size_t pyld_size, const pkt_type type)
+void join_handler(struct client_info_data *client_info,
+		const void *payload, const size_t pyld_size, const pkt_type type)
 {
+	struct group_info_node *grp_info;
+	const struct msg_join_grp_pld *join_pld = payload;
+	int ret;
 
-		printf("Client (fd: %d) requests to join group:\"%s\"\n", args->client_sockfd,
-						payload);
-        /* Apply the lock for num_of_clients*/
-		if (payload[0] == '1')
-		{
-           	num_of_clients[0]++;
-            args->client_info->group_id = 1;
-	   		printf("No. of clients in group %c : %d\n",payload[0],num_of_clients[0]);
-	  	}
-		if (payload[0] == '2')
-	  	{
-           	num_of_clients[1]++;
-            args->client_info->group_id = 2;
-	   		printf("No. of clients in group %c : %d\n",payload[0],num_of_clients[1]);
-	  	}
+	int grp_id = ntohs(join_pld->grp_id);
+	printf("Client (sock_fd:%d) requests to join group:\"%d\"\n", client_info->socket,
+			grp_id);
 
+	grp_info = db_get_group_by_grp_id(grp_id);
+	if (!grp_info) {
+		printf("Group %d not found! creating...", grp_id);
+		db_group_new(grp_id); 
+	}
+
+	ret = db_group_add_member(grp_id, client_info);
+
+	if (ret != 0) {
+		perror("Error in adding member to group!");
+	}
+		
+}
+void hello_handler(struct client_info_data *client_info,
+		const void *payload, const size_t pyld_size, const pkt_type type)
+{
+	strncat(client_info->buffer, payload, pyld_size);
+	strcat(client_info->buffer, ", ");
 }
 
-void hello_handler(thread_arguments *args,
-			const char *payload, const size_t pyld_size, const pkt_type type)
+/*chaitanya : handler to handle client heartbeat messages*/
+void heartbeat_handler(struct client_info_data *client_info, 
+        const char *payload)
 {
-
-		printf("Client (fd: %d) sent a message...\n", args->client_sockfd);
-       	strncat(args->client_info->client_message,payload, pyld_size);
-		strcat(args->client_info->client_message, ", ");
-		printf("exiting \n");
+    //TODO : chaitanya - in the group list also update the heartbeat 
+    client_info->heartbeat_epoch_seconds = (long int) atoi(payload);
+    printf("heartbeat = %d \n",client_info->heartbeat_epoch_seconds); 
+    /*
+    client_heartbeat_info *node;
+    node = search_client_heartbeat_info(head, client_sockfd);
+    if(node == NULL)
+    {
+        printf("error : node not found\n");
+        exit(1);
+    }
+    node->heartbeat_epoch_seconds = (long int) atoi(payload) ;
+    */
 }
 
-
-void quit_handler() 
+void quit_handler(struct client_info_data *client_info)
 {
 	pthread_exit(NULL);
 }

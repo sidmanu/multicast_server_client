@@ -1,10 +1,10 @@
 
 CC=/usr/bin/gcc
-CCFLAGS = -g -Wall -I.
+CCFLAGS = -g -I.
 LIBS = -lpthread
 
-SERVER_OBJS = server.o server_pkt_handlers.o server_threads.o
-CLIENT_OBJS = client.o
+SERVER_OBJS = server_threads.o server.o server_pkt_handlers.o server_tasks.o server_db.o common_utils.o
+CLIENT_OBJS = client.o common_utils.o client_pkt_handlers.o
 
 all: server client
 

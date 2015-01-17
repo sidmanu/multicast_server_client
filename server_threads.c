@@ -1,102 +1,103 @@
-#include "server.h"
 #include <pthread.h>
 #include <unistd.h>
+#include <time.h>
+#include <stdio.h>
 
-void *periodic_print_thread(void *t_args)
+#include "server.h"
+#include "server_db.h"
+
+
+static void print_grps_info()
 {
-    group_info *head = g_head;
-    int i = 0, j = 0;
-    while(1)
-    {
-        head = g_head;
-        sleep(10);
-        i = j = 0;
-        
-        while(head)
-        {         
-            printf("Client id:%d, message buff:[%s], group:%d \n",
-                    head->client_sockfd,
-                    head->client_message,
-                    head->group_id);
-            head = head->next;
-        }
-    /*    while(head)
-        {        
-            if(head->group_id == 1)
-            {
-                if( 0 == i)
-                {
-                    printf("Group id : %d \n",head->group_id);
-                    i = 1;
-                }
-                printf("Client id:%d, message buff:[%s] \n",
-                        head->client_sockfd,
-                        head->client_message);
-            }    
-            head = head->next;
-        }
-        head = g_head;
-        while(head)
-        {
-            if(head->group_id == 2)
-            {
-                if( 0 == j)
-                {
-                    printf("Group id : %d \n",head->group_id);
-                    j = 1;
-                }
-                printf("Client id:%d, message buff:[%s] \n",
-                        head->client_sockfd,
-                        head->client_message);
-            }
-            head = head->next;
-        }
-    */
-    }
-    pthread_exit(NULL);
+	struct tm *tm_info;
+	time_t timer;
+	char time_buf[MAXDATEBUF];
+	struct group_info_node *grp_node = db.group_list;
+	struct client_info_list_node *cl_node;
+
+	time(&timer);
+	tm_info = localtime(&timer);
+	strftime(time_buf, MAXDATEBUF, "%Y-%m-%d %H:%M:%S", tm_info);
+
+	while (grp_node) {
+
+		printf("\n>>%s:[Grp_id:%d]\nMembers:", time_buf, grp_node->grp_id);
+		cl_node = grp_node->members;	
+
+		while (cl_node) {
+            printf("client_fd:%d, ", cl_node->data->socket);
+			cl_node = cl_node->next;
+		}	
+	
+		grp_node = grp_node->next;
+	}
+
+	fflush(stdout);
+	
+}
+
+static void print_clients_info() 
+{
+	struct tm *tm_info;
+	time_t timer;
+	char time_buf[MAXDATEBUF];
+	struct client_info_list_node *node;
+
+	node = db.client_list;
+
+	time(&timer);
+	tm_info = localtime(&timer);
+	strftime(time_buf, MAXDATEBUF, "%Y-%m-%d %H:%M:%S", tm_info);
+
+	while(node)
+	{
+
+		if (strlen(node->data->buffer) <= 1) {
+			node = node->next;
+			continue;	
+		}
+        /* chaitanya : print heartbeat seconds */
+		printf("[%s] Client (%s,%d): heartbeat:[%ld] buffer:[%s]\n",
+				time_buf,
+				node->data->hostname,
+				node->data->port,
+                node->data->heartbeat_epoch_seconds,
+				node->data->buffer);
+		node = node->next;
+	}
+
 }
 
 
-void *client_handler_thread(void *t_args)
+void *periodic_print_thread_fn(void *t_args)
 {
-    thread_arguments *args=(thread_arguments *)t_args;
-    int ret;
-    size_t rx_sz;
-    pkt_type type;
-    char *rx_buffer = NULL;
-    
-    while(1)
-    {
-        ret = pkt_recv(args->client_sockfd, &rx_buffer, &rx_sz, &type);
-        
-        /* if recv() returns -1 then some error occured while receiving,
-         * if returns 0 client has disconnected,
-         * else it will returns the number of bytes received
-         */
-        if(-1 == ret || !rx_buffer) {
-            perror("recv");
-            close(args->client_sockfd);
-            continue;
-        }
-        //printf("One packet received!. Pkt type: %d Payload size: %zu\n", type, rx_sz);
+	while(1)
+	{
+		sleep(20);
+		printf("\n\n1 minute elapsed. Printing clients status\n");
+		print_clients_info();
+		printf("\n\nPrinting group status\n");
+		print_grps_info();
 
-        switch(type) {
-            case MSG_JOIN:
-                join_handler(args, rx_buffer, rx_sz, type);
-                break;
-            
-            case MSG_HELLO:
-                hello_handler(args, rx_buffer, rx_sz, type);
-                break;
-            
-            case MSG_QUIT:
-                quit_handler(args); 
-                break;
+	}
+	pthread_exit(NULL);
 
-            default:
-                printf("Unknown packet!!!!");
-        }
-        free(rx_buffer);
-    }
-    assert(0);
+}
+
+
+void *user_interactor_thread_fn(void *t_args)
+{
+
+	task_menu();	
+
+	pthread_exit(NULL);
+}
+
+/*chaitanya :  */
+void *heartbeat_thread_fn(void *t_args)
+{
+    // TODO : chaitanya
+       //loop through the lninkedlist and eliminate which has the heartbeat less than 1 min chaitanya
+       //After having the working group and client data structures.
+       //client structure is not printing anything in the periodic print thread
 }

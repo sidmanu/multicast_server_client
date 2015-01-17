@@ -9,18 +9,46 @@
 #include <stdio.h>
 
 #define NOFLAGS 0
-#define MAX_NUM_OF_CLIENTS 10
+#define MAXNUMCLIENTS 10
 #define MAXDATASIZE 100 
-#define MAXBUFFER 2048
+#define MAXBUFFER 1024*1024 
+#define MAXHOSTNAME 48 
+#define MAXDESC 2048
 #define MAGIC 0xCA0000CB
+#define MAXDATEBUF 25
+#define MAXFILENAME 25
 
+
+enum truth_vals{
+	FALSE = 0,
+	TRUE = 1,
+};
+
+typedef enum {
+	MSG_HELLO = 1,
+	MSG_JOIN_GRP,
+	MSG_HEARTBEAT,
+	MSG_GET_GRP_LIST_FOR_TASK,
+	MSG_GET_GRP_LIST_FOR_TASK_RESP,
+	MSG_CHK_AVAIL,
+	MSG_CHK_AVAIL_RESP_OK,
+	MSG_CHK_AVAIL_RESP_NOK,
+	MSG_TASK_ASSIGN,
+	MSG_TASK_OUTPUT,
+	MSG_QUIT,
+} pkt_type;
+
+
+/* Payloads */
+
+struct msg_join_grp_pld {
+	int grp_id;
+};
 
 
 typedef enum {
-	MSG_JOIN = 1,
-	MSG_HELLO,
-	MSG_QUIT,
-} pkt_type;
+	TASK_SUM = 1,
+} task_type_t;
 
 
 struct pkt {
@@ -31,7 +59,7 @@ struct pkt {
 } PACKED;
 
 
-static inline size_t pkt_send(int fd, pkt_type type, char *data, size_t data_size)
+static inline size_t pkt_send(int fd, pkt_type type, void *data, size_t data_size)
 {
 	struct pkt *p = NULL;
 	size_t sz;
@@ -52,8 +80,10 @@ static inline size_t pkt_send(int fd, pkt_type type, char *data, size_t data_siz
 	p->type = type;
 	p->len = data_size;
 	memcpy(p->data, data, data_size);
+#ifdef LOG
 	printf("Sending pkt size:%zu payload_len: %zu pkt type:%d\n",
 			sz, p->len, p->type);
+#endif
 
 	do {
 		data_sent = send(fd, (const char *) p + offset, sz, NOFLAGS);
@@ -70,11 +100,12 @@ static inline size_t pkt_send(int fd, pkt_type type, char *data, size_t data_siz
 	return data_size;
 } 
 
-static inline int pkt_recv(int fd, char **rx_buf, size_t *data_size, pkt_type *type)
+static inline int pkt_recv(int fd, void **rx_buf, size_t *data_size, pkt_type *type)
 {
 	*rx_buf = NULL;
 
 	// first receive only as much as to get type & length
+
 	struct pkt dummy;
 	size_t pkt_len;
 	size_t payload_len;
@@ -82,8 +113,11 @@ static inline int pkt_recv(int fd, char **rx_buf, size_t *data_size, pkt_type *t
 	int offset = 0;
 	
 	pkt_len = recv(fd, &dummy, sizeof(struct pkt), NOFLAGS);
+
+#ifdef LOG
 	printf("Rxbytes: %zu, magic: %x pkt_type: %d, payload_len: %zu\n", 
 				pkt_len, dummy.magic, dummy.type, dummy.len);
+#endif
 
 	*type = dummy.type;
 	payload_len = dummy.len;

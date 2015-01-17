@@ -1,0 +1,102 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	makefile	/^CC=\/usr\/bin\/gcc$/;"	m
+CCFLAGS	makefile	/^CCFLAGS = -g -Wall -I.$/;"	m
+CLIENT_OBJS	makefile	/^CLIENT_OBJS = client.o client_utils.o$/;"	m
+LIBS	makefile	/^LIBS = -lpthread$/;"	m
+MAGIC	common_hdr.h	17;"	d
+MAXBUFFER	common_hdr.h	14;"	d
+MAXDATASIZE	common_hdr.h	13;"	d
+MAXDATEBUF	common_hdr.h	18;"	d
+MAXDESC	common_hdr.h	16;"	d
+MAXHOSTNAME	common_hdr.h	15;"	d
+MAXNUMCLIENTS	common_hdr.h	12;"	d
+MSG_CHK_AVAIL	common_hdr.h	/^	MSG_CHK_AVAIL,$/;"	e	enum:__anon1
+MSG_CHK_AVAIL_RESP_NOK	common_hdr.h	/^	MSG_CHK_AVAIL_RESP_NOK,$/;"	e	enum:__anon1
+MSG_CHK_AVAIL_RESP_OK	common_hdr.h	/^	MSG_CHK_AVAIL_RESP_OK,$/;"	e	enum:__anon1
+MSG_GET_GRP_LIST_FOR_TASK	common_hdr.h	/^	MSG_GET_GRP_LIST_FOR_TASK,$/;"	e	enum:__anon1
+MSG_GET_GRP_LIST_FOR_TASK_RESP	common_hdr.h	/^	MSG_GET_GRP_LIST_FOR_TASK_RESP,$/;"	e	enum:__anon1
+MSG_HEARTBEAT	common_hdr.h	/^	MSG_HEARTBEAT,$/;"	e	enum:__anon1
+MSG_HELLO	common_hdr.h	/^	MSG_HELLO = 1,$/;"	e	enum:__anon1
+MSG_JOIN_GRP	common_hdr.h	/^	MSG_JOIN_GRP,$/;"	e	enum:__anon1
+MSG_QUIT	common_hdr.h	/^	MSG_QUIT,$/;"	e	enum:__anon1
+MSG_TASK_ASSIGN	common_hdr.h	/^	MSG_TASK_ASSIGN,$/;"	e	enum:__anon1
+MSG_TASK_OUTPUT	common_hdr.h	/^	MSG_TASK_OUTPUT,$/;"	e	enum:__anon1
+NOFLAGS	common_hdr.h	11;"	d
+PACKED	common_hdr.h	/^} PACKED;$/;"	v	typeref:struct:pkt
+SERVER_OBJS	makefile	/^SERVER_OBJS = server_threads.o server.o server_pkt_handlers.o server_tasks.o server_db.o$/;"	m
+TASK_SUM	common_hdr.h	/^	TASK_SUM = 1,$/;"	e	enum:__anon2
+_CAPS_SERVER_H	server.h	2;"	d
+_COMMON_HDR_H	common_hdr.h	2;"	d
+_SERVER_DB_H	server_db.h	2;"	d
+_SERVER_PKT_HANDLERS_H	server_pkt_handlers.h	2;"	d
+buffer	server_db.h	/^	char buffer[MAXBUFFER];$/;"	m	struct:client_info_data
+client_info_data	server_db.h	/^struct client_info_data {$/;"	s
+client_info_list_node	server_db.h	/^struct client_info_list_node {$/;"	s
+client_list	server_db.h	/^	struct client_info_list_node *client_list;$/;"	m	struct:global_db	typeref:struct:global_db::client_info_list_node
+data	common_hdr.h	/^	char data[0];$/;"	m	struct:pkt
+data	server_db.h	/^	struct client_info_data *data;$/;"	m	struct:client_info_list_node	typeref:struct:client_info_list_node::client_info_data
+db	server.c	/^struct global_db db; $/;"	v	typeref:struct:global_db
+db_client_del	server_db.c	/^void db_client_del(struct client_info_data *data)$/;"	f
+db_client_new	server_db.c	/^void db_client_new(struct client_info_data *data)$/;"	f
+db_get_client_by_socket	server_db.c	/^db_get_client_by_socket(int sock_id)$/;"	f
+db_get_group_by_grp_id	server_db.c	/^struct group_info *db_get_group_by_grp_id(int grp_id)$/;"	f
+db_group_add_member	server_db.c	/^int db_group_add_member(int group_id, $/;"	f
+db_group_new	server_db.c	/^void db_group_new(int group_id)$/;"	f
+desc	server_db.h	/^	char desc[MAXDESC];$/;"	m	struct:running_task_info
+end_time	server_db.h	/^	struct timeval end_time;$/;"	m	struct:running_task_info	typeref:struct:running_task_info::timeval
+get_in_addr	client.c	/^*get_in_addr(struct sockaddr *sa)$/;"	f	file:
+global_db	server_db.h	/^struct global_db {$/;"	s
+group_info_node	server_db.h	/^struct group_info_node {$/;"	s
+group_list	server_db.h	/^	struct group_info_node *group_list;$/;"	m	struct:global_db	typeref:struct:global_db::group_info_node
+grp_id	common_hdr.h	/^	int grp_id;$/;"	m	struct:msg_join_grp_pld
+grp_id	server_db.h	/^	int grp_id;$/;"	m	struct:group_info_node
+handle_client_recv	server.c	/^handle_client_recv(fd_set *master, int sock_id)$/;"	f	file:
+hello_handler	server_pkt_handlers.c	/^void hello_handler(struct client_info_data *client_info,$/;"	f
+hostname	server_db.h	/^	char hostname[MAXHOSTNAME];$/;"	m	struct:client_info_data
+info	server_db.h	/^	char info[MAXDESC];$/;"	m	struct:client_info_data
+init_global_db	server_db.c	/^void init_global_db()$/;"	f
+init_periodic_print	server.c	/^init_periodic_print()$/;"	f	file:
+init_server_socket	server.c	/^init_server_socket(int argc, char *argv[])$/;"	f	file:
+init_signal_handler	client.c	/^init_signal_handler()$/;"	f	file:
+init_socket	client.c	/^init_socket(int argc, char *argv[]) $/;"	f	file:
+init_user_interactor	server.c	/^init_user_interactor()$/;"	f	file:
+input_dataset	server_db.h	/^	void *input_dataset;$/;"	m	struct:running_task_info
+join_grps	client.c	/^static void join_grps(int *grp_list, int grp_list_len)$/;"	f	file:
+join_handler	server_pkt_handlers.c	/^void join_handler(struct client_info_data *client_info,$/;"	f
+len	common_hdr.h	/^	size_t	 len;$/;"	m	struct:pkt
+magic	common_hdr.h	/^	int magic;$/;"	m	struct:pkt
+main	client.c	/^main(int argc, char *argv[])$/;"	f
+main	server.c	/^main (int argc, char *argv[])$/;"	f
+members	server_db.h	/^	struct client_info_list_node *members;$/;"	m	struct:group_info_node	typeref:struct:group_info_node::client_info_list_node
+msg_join_grp_pld	common_hdr.h	/^struct msg_join_grp_pld {$/;"	s
+new_connection	server.c	/^new_connection(fd_set *master_fds, int *fdmax)$/;"	f	file:
+next	server_db.h	/^	struct client_info_list_node *next;$/;"	m	struct:client_info_list_node	typeref:struct:client_info_list_node::client_info_list_node
+next	server_db.h	/^	struct group_info_node *next;$/;"	m	struct:group_info_node	typeref:struct:group_info_node::group_info_node
+periodic_print_thread_fn	server_threads.c	/^void *periodic_print_thread_fn(void *t_args)$/;"	f
+periodic_thread	server.c	/^pthread_t periodic_thread;$/;"	v
+pkt	common_hdr.h	/^struct pkt {$/;"	s
+pkt_count	server_db.h	/^	int pkt_count;$/;"	m	struct:client_info_data
+pkt_recv	common_hdr.h	/^static inline int pkt_recv(int fd, void **rx_buf, size_t *data_size, pkt_type *type)$/;"	f
+pkt_send	common_hdr.h	/^static inline size_t pkt_send(int fd, pkt_type type, void *data, size_t data_size)$/;"	f
+pkt_type	common_hdr.h	/^} pkt_type;$/;"	t	typeref:enum:__anon1
+port	server_db.h	/^	int port; $/;"	m	struct:client_info_data
+quit_handler	server_pkt_handlers.c	/^void quit_handler(struct client_info_data *client_info)$/;"	f
+running_task_info	server_db.h	/^struct running_task_info {$/;"	s
+server_sockfd	server.c	/^int server_sockfd;$/;"	v
+sigint_handler	client.c	/^sigint_handler(int s)$/;"	f	file:
+socket	server_db.h	/^	int socket;$/;"	m	struct:client_info_data
+sockfd	client.c	/^int sockfd;$/;"	v
+start_time	server_db.h	/^	struct timeval start_time;$/;"	m	struct:running_task_info	typeref:struct:running_task_info::timeval
+task_id	server_db.h	/^	int task_id;$/;"	m	struct:running_task_info
+task_menu	server_tasks.c	/^void task_menu()$/;"	f
+task_type	server_db.h	/^	task_type_t task_type;$/;"	m	struct:running_task_info
+task_type_t	common_hdr.h	/^} task_type_t;$/;"	t	typeref:enum:__anon2
+type	common_hdr.h	/^	pkt_type type;$/;"	m	struct:pkt
+user_interactor_thread	server.c	/^pthread_t user_interactor_thread;$/;"	v
+user_interactor_thread_fn	server_threads.c	/^void *user_interactor_thread_fn(void *t_args)$/;"	f
+util_get_int_list_from_csv	client_utils.c	/^util_get_int_list_from_csv(char *csv, int **pp_arr,$/;"	f
