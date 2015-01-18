@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <stdio.h>
-
+#include "common_hdr.h"
 #include "server.h"
 #include "server_db.h"
 
@@ -21,7 +21,7 @@ static void print_grps_info()
 
 	while (grp_node) {
 
-		printf("\n>>%s:[Grp_id:%d]\nMembers:", time_buf, grp_node->grp_id);
+		printf("\n>>%s:[Grp_id:%d]Members:", time_buf, grp_node->grp_id);
 		cl_node = grp_node->members;	
 
 		while (cl_node) {
@@ -44,7 +44,6 @@ static void print_clients_info()
 	struct client_info_list_node *node;
 
 	node = db.client_list;
-
 	time(&timer);
 	tm_info = localtime(&timer);
 	strftime(time_buf, MAXDATEBUF, "%Y-%m-%d %H:%M:%S", tm_info);
@@ -52,12 +51,15 @@ static void print_clients_info()
 	while(node)
 	{
 
+
+#if 0
 		if (strlen(node->data->buffer) <= 1) {
 			node = node->next;
 			continue;	
 		}
+#endif
         /* chaitanya : print heartbeat seconds */
-		printf("[%s] Client (%s,%d): heartbeat:[%ld] buffer:[%s]\n",
+		debug_print("[%s] Client (%s,%d): heartbeat:[%ld] buffer:[%s]\n",
 				time_buf,
 				node->data->hostname,
 				node->data->port,
@@ -73,10 +75,10 @@ void *periodic_print_thread_fn(void *t_args)
 {
 	while(1)
 	{
-		sleep(20);
-		printf("\n\n1 minute elapsed. Printing clients status\n");
+		sleep(60);
+		debug_print("\n%d minute elapsed.\n Printing clients status\n", 1);
 		print_clients_info();
-		printf("\n\nPrinting group status\n");
+		debug_print("\nPrinting group %s", "status");
 		print_grps_info();
 
 	}

@@ -14,12 +14,12 @@ void join_handler(struct client_info_data *client_info,
 	int ret;
 
 	int grp_id = ntohs(join_pld->grp_id);
-	printf("Client (sock_fd:%d) requests to join group:\"%d\"\n", client_info->socket,
+	debug_print("Client (sock_fd:%d) requests to join group:\"%d\"\n", client_info->socket,
 			grp_id);
 
 	grp_info = db_get_group_by_grp_id(grp_id);
 	if (!grp_info) {
-		printf("Group %d not found! creating...", grp_id);
+		debug_print("Group %d not found! creating...", grp_id);
 		db_group_new(grp_id); 
 	}
 
@@ -43,7 +43,7 @@ void heartbeat_handler(struct client_info_data *client_info,
 {
     //TODO : chaitanya - in the group list also update the heartbeat 
     client_info->heartbeat_epoch_seconds = (long int) atoi(payload);
-    printf("heartbeat = %d \n",client_info->heartbeat_epoch_seconds); 
+   // printf("heartbeat = %d \n",client_info->heartbeat_epoch_seconds); 
     /*
     client_heartbeat_info *node;
     node = search_client_heartbeat_info(head, client_sockfd);

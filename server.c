@@ -112,7 +112,7 @@ handle_client_recv(fd_set *master, int sock_id)
     int ret;
 	struct client_info_data *client_info = NULL;
 
-    printf ("recv from the client socket: %d\n", sock_id);
+    debug_print_2 ("recv from the client socket: %d\n", sock_id);
     ret = pkt_recv (sock_id, &rx_buffer, &rx_sz, &type);
     if (-1 == ret || !rx_buffer) {
         perror ("recv");
@@ -227,6 +227,7 @@ new_connection(fd_set *master_fds, int *fdmax)
         perror ("accept");
         return;
     } else {
+        debug_print_3("accept the new connection from newfd=%d\n",newfd);
         FD_SET (newfd, master_fds); // now we'll also select() on this fd 
         if (newfd > *fdmax) {
             /* max fd might have changed */

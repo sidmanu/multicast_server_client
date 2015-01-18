@@ -17,8 +17,22 @@
 #define MAGIC 0xCA0000CB
 #define MAXDATEBUF 25
 #define MAXFILENAME 25
+#define DEBUG 1
+#define DEBUG_2 0
+#define DEBUG_3 0
 
+#define debug_print(...) \
+    do { if (DEBUG) printf(__VA_ARGS__); } while (0)
+//#define debug_print(fmt, ...) \
+  //  do { if (DEBUG) fprintf(stderr, fmt, __VA_ARGS__); } while (0)
 
+#define debug_print_2(fmt, ...) \
+    do { if (DEBUG_2) fprintf(stderr, "\n%s:%d:%s(): " fmt, __FILE__, \
+                              __LINE__, __func__, __VA_ARGS__); } while (0)
+
+#define debug_print_3(fmt, ...) \
+    do { if (DEBUG_3) fprintf(stderr, "\n%s:%d:%s(): " fmt, __FILE__, \
+                              __LINE__, __func__, __VA_ARGS__); } while (0)
 enum truth_vals{
 	FALSE = 0,
 	TRUE = 1,

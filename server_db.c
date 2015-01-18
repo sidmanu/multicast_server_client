@@ -5,6 +5,7 @@
 void init_global_db()
 {
 	memset(&db, 0, sizeof(struct global_db));
+    printf("Initializing Global DB");
 }
 
 void db_client_new(struct client_info_data *data)
@@ -17,10 +18,12 @@ void db_client_new(struct client_info_data *data)
 
 	if (!db.client_list) {
 		db.client_list = node;	
+        debug_print_2("Added first client to client_db = %p",db.client_list);
 	} else {
 		temp = db.client_list;
 		db.client_list = node;
 		node->next = temp;
+        debug_print_2("Added one more client to client_db = %p",db.client_list);
 	}
 }
 
@@ -71,8 +74,8 @@ void db_group_new(int group_id)
 	struct group_info_node *group_info;
 	
 	group_info = malloc(sizeof *group_info);
+    memset(group_info, 0, sizeof(*group_info));
 	group_info->grp_id = group_id;
-	group_info->next = NULL;
 
 	if (!db.group_list) {
 		db.group_list = group_info;

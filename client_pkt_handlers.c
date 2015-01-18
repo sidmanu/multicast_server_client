@@ -34,7 +34,7 @@ void *client_recv_thread_fn(void *t_args)
 
 
 	while (1) {
-		printf ("recv from server socket");
+		debug_print("recv from server socket %s", "");
 		ret = pkt_recv (sockfd, &rx_buffer, &rx_sz, &type);
 		if (-1 == ret || !rx_buffer) {
 			perror ("recv");
@@ -68,9 +68,9 @@ void *client_heartbeat_thread_fn(void *t_args)
         time(&now);
         ts = *localtime(&now);
         strftime(buf_temp, sizeof(buf_temp), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
-        printf("%s\n", buf_temp);
+        debug_print_2("%s\n", buf_temp);
         epoch_seconds = mktime(&ts);
-        printf("seconds since the Epoch: %ld\n", (long) epoch_seconds);
+        debug_print_2("Epoch: %ld\n", (long) epoch_seconds);
         sprintf(buf, "%ld", (long)epoch_seconds);
 
         numbytes = pkt_send(sockfd, MSG_HEARTBEAT, buf, strlen(buf));

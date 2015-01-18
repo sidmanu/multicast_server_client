@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <string.h>
 
 #include "server.h"
 #include "server_db.h"
@@ -37,9 +38,13 @@ run_task_sum_csv()
 	struct client_info_list_node *client_list_node;
 	struct group_info_node *grp;
 	int chosen_grp_id;
-
+    
+    strncpy(file_name, "./sample.csv", MAXFILENAME);
+    //TODO - uncomment this
+#if 0
 	printf("\nEnter the input file location:");	
 	scanf("%s", file_name);
+#endif
 	printf("\nInput file: %s", file_name);
 	
 	if (!file_exists(file_name)) {
@@ -97,15 +102,13 @@ exec_choice(int choice)
 void task_menu()
 {
 	int choice;
-	while(1) {
-		printf("\n=========TASK MENU============\n");	
-		printf("\n1. Run Task: Find the sum of numbers in a csv file");
-		printf("\n2. Quit App");
-		printf("\nPlease choose an option from the above:\n");
-		scanf("%d", &choice);
-		exec_choice(choice);
+    printf("\n=========TASK MENU============\n");	
+    printf("\n1. Run Task: Find the sum of numbers in a csv file");
+    printf("\n2. Quit App");
+    printf("\nPlease choose an option from the above:\n");
+    scanf("%d", &choice);
+    exec_choice(choice);
 
-		printf("\n=============xxx==============\n");	
-	}
-	
+    printf("\n=============xxx==============\n");	
+
 }
