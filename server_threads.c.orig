@@ -20,11 +20,11 @@ static void print_grps_info()
 
 	while (grp_node) {
 
-		printf("\n[%s]:Grp %d, Members:", time_buf, grp_node->grp_id);
+		printf("\n>>%s:[Grp_id:%d]Members:", time_buf, grp_node->grp_id);
 		cl_node = grp_node->members;	
 
 		while (cl_node) {
-            printf("%d, ", cl_node->data->socket);
+            printf("client_fd:%d, ", cl_node->data->socket);
 			cl_node = cl_node->next;
 		}	
 	
@@ -58,7 +58,7 @@ static void print_clients_info()
 		}
 #endif
         /* chaitanya : print heartbeat seconds */
-		debug_print("[%s] Client (%s,%d): last-hb:[%ld] buffer:[%s]\n",
+		debug_print("[%s] Client (%s,%d): heartbeat:[%ld] buffer:[%s]\n",
 				time_buf,
 				node->data->hostname,
 				node->data->port,
@@ -75,7 +75,7 @@ void *periodic_print_thread_fn(void *t_args)
 	while(1)
 	{
 		sleep(60);
-		debug_print("\nPrinting global client info\n");
+		debug_print("\n%d minute elapsed.\n Printing clients status\n", 1);
 		print_clients_info();
 		debug_print("\nPrinting group %s", "status");
 		print_grps_info();

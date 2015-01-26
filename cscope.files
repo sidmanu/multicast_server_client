@@ -8,8 +8,10 @@
 ./client.c
 ./client.h
 ./server_db.c
+./server_coordinator.c
 ./server.c
 ./common_utils.c
 ./client_pkt_handlers.h
 ./server_tasks.c
+./server_coordinator.h
 ./server_pkt_handlers.h

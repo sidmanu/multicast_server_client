@@ -25,6 +25,10 @@ void db_client_new(struct client_info_data *data)
 		node->next = temp;
         debug_print_2("Added one more client to client_db = %p",db.client_list);
 	}
+
+    db.clients_count++;
+    printf("Total number of clients: %d\n", db.clients_count);
+
 }
 
 struct client_info_data *
@@ -134,5 +138,62 @@ struct group_info_node *db_get_group_by_grp_id(int grp_id)
 	return NULL;
 }
 
+
+/* Runtime tasks */
+
+int db_task_new(int task_id,
+        int grp_id,
+        task_type_t type,
+        const char *input_file)
+{
+	struct running_task *new;
+    struct running_task *temp;
+
+	new = db_get_task_by_task_id(task_id);
+	if (new) {
+		perror("Repeated task!\n");
+		assert(0);
+	}
+
+    new = malloc(sizeof(struct running_task));
+    if (!new) {
+        debug_print("Malloc failed in %s", __FUNCTION__);
+        assert(0);
+    }
+    memset(new, 0, sizeof(struct running_task));
+
+    new->task_id = task_id;
+    new->grp_id = grp_id;
+    new->status = TASK_UNASSIGNED;
+    new->start_time = get_epochseconds_now(); 
+    strncpy(new->input_file, input_file, MAXFILENAME);
+
+    if (db.task_list) {
+        temp = db.task_list;
+        db.task_list = new;
+        new->next = temp;
+    } else {
+        db.task_list = new;
+    }
+
+    debug_print("\nCreated new task. input_file: %s task_id: %d grp_id: %d",
+                new->input_file, task_id, grp_id);
+
+	return 0;
+}
+
+struct running_task * db_get_task_by_task_id(int task_id)
+{
+	struct running_task *temp;
+	temp = db.task_list;
+
+	while (temp) {
+		if (temp->task_id == task_id)
+			return temp;
+		temp = temp->next;
+	}	
+
+	return NULL;
+}
 
 

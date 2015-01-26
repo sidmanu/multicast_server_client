@@ -45,12 +45,11 @@ typedef enum {
 	MSG_HEARTBEAT,
 	MSG_GET_GRP_LIST_FOR_TASK,
 	MSG_GET_GRP_LIST_FOR_TASK_RESP,
-	MSG_CHK_FREE,
-	MSG_FREE_OK,
-	MSG_FREE_NOK,
+	MSG_CHK_AVAIL,
+	MSG_CHK_AVAIL_RESP_OK,
+	MSG_CHK_AVAIL_RESP_NOK,
 	MSG_TASK_ASSIGN,
-	MSG_TASK_DONE,
-	MSG_TASK_FAIL,
+	MSG_TASK_OUTPUT,
 	MSG_QUIT,
 } pkt_type;
 
@@ -62,30 +61,10 @@ struct msg_join_grp_pld {
 };
 
 
-struct msg_chk_free_pld {
-	int task_id;
-};
-
-struct msg_chk_free_resp_pld {
-	enum truth_vals free;
-};
-
-struct msg_task_assign_pld {
-    int len;
-    int subtask_id;
-    char data[0];
-};
-
-struct msg_task_result_pld {
-    int status; 
-    int subtask_id;
-    int output;
-};
-
-
 typedef enum {
 	TASK_SUM = 1,
 } task_type_t;
+
 
 struct pkt {
 	int magic;

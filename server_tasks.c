@@ -5,6 +5,7 @@
 
 #include "server.h"
 #include "server_db.h"
+#include "server_coordinator.h"
 
 static int file_exists (const char *filename)
 {
@@ -12,42 +13,19 @@ static int file_exists (const char *filename)
   return (stat (filename, &buffer) == 0);
 }
 
-
-static int get_file_chunks(char *mother_file,
-		int num_chunks)
-{
-	FILE *in_fp;
-	size_t sz;
-
-	int chunk_sz;	
-	in_fp = fopen(mother_file, "r");
-	fseek(in_fp, 0L, SEEK_END);
-	sz = ftell(in_fp);
-	printf("\nTotal file size: %zu", sz);
-	chunk_sz = sz/num_chunks;
-	printf("\nChunk size: %d", chunk_sz);
-	fseek(in_fp, sz, SEEK_SET);
-
-	return 0;
-} 
-
 static void
 run_task_sum_csv()
 {
-	char file_name[MAXFILENAME];
+	struct input_task task;
 	struct client_info_list_node *client_list_node;
 	struct group_info_node *grp;
 	int chosen_grp_id;
     
-    strncpy(file_name, "./sample.csv", MAXFILENAME);
+    strncpy(task.input_file, "./sample.csv", MAXFILENAME);
     //TODO - uncomment this
-#if 0
-	printf("\nEnter the input file location:");	
-	scanf("%s", file_name);
-#endif
-	printf("\nInput file: %s", file_name);
+	printf("\nInput file: %s", task.input_file);
 	
-	if (!file_exists(file_name)) {
+	if (!file_exists(task.input_file)) {
 		fprintf(stderr, "\nInput file doesn't exist!!");
 		return;
 	}
@@ -63,22 +41,7 @@ run_task_sum_csv()
 	printf("\n");
 	scanf("%d", &chosen_grp_id);
 
-	get_file_chunks(file_name, 2);	
-	grp = db_get_group_by_grp_id(chosen_grp_id);		
-
-	if (grp) {
-		for (client_list_node = grp->members;
-			client_list_node != NULL; 
-			client_list_node = client_list_node->next) {
-		
-			printf("Client-id: %d, ", client_list_node->data->socket);
-
-		}
-
-	
-	}
-	
-		
+	server_dist_task_to_clients(chosen_grp_id, &task); 
 }
 
 

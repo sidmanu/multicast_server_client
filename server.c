@@ -114,7 +114,7 @@ handle_client_recv(fd_set *master, int sock_id)
 
     debug_print_2 ("recv from the client socket: %d\n", sock_id);
     ret = pkt_recv (sock_id, &rx_buffer, &rx_sz, &type);
-    if (-1 == ret || !rx_buffer) {
+    if (-1 == ret || !rx_buffer || type == MSG_QUIT) {
         perror ("recv");
         close (sock_id);
         FD_CLR (sock_id, master);    // remove from master set
@@ -133,8 +133,6 @@ handle_client_recv(fd_set *master, int sock_id)
 
 		client_info = db_get_client_by_socket(sock_id);	
 
-		//TODO: Identify the client based on socket
-		
 
         switch (type)
         {
@@ -243,6 +241,7 @@ new_connection(fd_set *master_fds, int *fdmax)
         printf ("\nNew client joined (%s , %d)\n",
                 data->hostname,
                 data->port);
+
     }
 }
 

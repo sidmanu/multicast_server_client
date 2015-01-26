@@ -5,7 +5,7 @@
 #include <pthread.h>
 
 void 
-msg_chk_free_handler(
+get_avail_handler(
 			const void *payload, const size_t pyld_size, 
 			const pkt_type type)
 {
@@ -14,10 +14,10 @@ msg_chk_free_handler(
 
 	if (busy_state) {
 		numbytes = pkt_send(sockfd, 
-			MSG_FREE_NOK, NULL, 0);
+			MSG_CHK_AVAIL_RESP_NOK, NULL, 0);
    	} else {
 		numbytes = pkt_send(sockfd, 
-			MSG_FREE_OK, NULL, 0);
+			MSG_CHK_AVAIL_RESP_OK, NULL, 0);
 	}
 	if (-1 == numbytes) {
             perror("send");
@@ -43,8 +43,8 @@ void *client_recv_thread_fn(void *t_args)
 
 
 		switch (type) {
-		case MSG_CHK_FREE:
-				msg_chk_free_handler(rx_buffer, rx_sz, type);
+		case MSG_CHK_AVAIL:
+				get_avail_handler(rx_buffer, rx_sz, type);
 				pthread_exit(NULL);
 		default:
 			printf("\nUnexpected message!!!");

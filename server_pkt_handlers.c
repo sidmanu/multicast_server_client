@@ -19,7 +19,7 @@ void join_handler(struct client_info_data *client_info,
 
 	grp_info = db_get_group_by_grp_id(grp_id);
 	if (!grp_info) {
-		debug_print("Group %d not found! creating...", grp_id);
+		debug_print("Creating group %d...\n", grp_id);
 		db_group_new(grp_id); 
 	}
 
@@ -43,7 +43,7 @@ void heartbeat_handler(struct client_info_data *client_info,
 {
     //TODO : chaitanya - in the group list also update the heartbeat 
     client_info->heartbeat_epoch_seconds = (long int) atoi(payload);
-   // printf("heartbeat = %d \n",client_info->heartbeat_epoch_seconds); 
+    debug_print_2("client_socket = %d, heartbeat = %d \n",client_info->socket, client_info->heartbeat_epoch_seconds); 
     /*
     client_heartbeat_info *node;
     node = search_client_heartbeat_info(head, client_sockfd);
@@ -58,5 +58,4 @@ void heartbeat_handler(struct client_info_data *client_info,
 
 void quit_handler(struct client_info_data *client_info)
 {
-	pthread_exit(NULL);
 }

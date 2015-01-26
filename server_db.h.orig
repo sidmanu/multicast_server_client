@@ -42,24 +42,8 @@ struct client_info_list_node {
 struct global_db {
 	struct client_info_list_node *client_list;
 	struct group_info_node *group_list;
-    struct running_task *task_list;
     int clients_count;
 };
-
-typedef enum {
-    TASK_UNASSIGNED = 1,
-    TASK_ASSIGNED,
-    TASK_RUNNING,
-    TASK_ABORTED,
-    TASK_COMPLETED
-} task_status_t ;
-
-typedef enum {
-    SUBTASK_DISPATCHED = 1,
-    SUBTASK_RUNNING,
-    SUBTASK_COMPLETED,
-    SUBTASK_TIMED_OUT
-} subtask_status_t ;
 
 
 
@@ -98,46 +82,15 @@ int db_group_add_member(int group_id,
 struct group_info_node *db_get_group_by_grp_id(int grp_id);
 
 
-struct running_subtask {
-    int parent_task_id;
-    int subtask_id;
-    subtask_status_t status;
-    struct client_info_data *client;
-	time_t start_time;
-	time_t end_time;
-    int input_data_len;
-    char input_data[0];
-    struct running_subtask *next;
-};
-
 /* Task management */
-struct running_task {
-    int grp_id;
+struct running_task_info {
 	int task_id;
-    task_status_t status;
 	task_type_t task_type;
 	char desc[MAXDESC];
-	time_t start_time;
-	time_t end_time;
-	char input_file[MAXFILENAME];
-    int num_clients;
-    struct running_subtask *subtasks_head;
-    struct running_task *next;
+	struct timeval start_time;
+	struct timeval end_time;
+	void *input_dataset;
 };
-
-struct input_task {
-	char input_file[MAXFILENAME];	
-};
-
-
-/* Running task API */
-int db_task_new(int task_id,
-        int grp_id,
-        task_type_t type,
-        const char *input_file);
-
-struct running_task * db_get_task_by_task_id(int task_id);
-
 
 
 #endif
