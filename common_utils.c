@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "common_hdr.h"
 
 void 
@@ -40,4 +42,40 @@ util_get_int_list_from_csv(char *csv, int **pp_arr,
 	}
 }
 
+int get_next_chunk(char *input_file_name, int offset,
+            int *chunk_size,
+            char *p_string_chunk)
+{
+
+	FILE *f;
+    int DELTA = 10;
+    char buf[MAXCHUNKSIZE];
+    int cur_len;
+
+    f = fopen(input_file_name, "r");
+    fseek(f, offset, SEEK_SET);
+    cur_len = fread(buf, 1, MAXCHUNKSIZE, f);
+    if (cur_len < MAXCHUNKSIZE)
+        goto non_clean;
+
+    //trim from the fag end till we reach a comma
+    while (cur_len > 0) {
+        cur_len--;
+        if (buf[cur_len - 1] == ',')
+            break;
+    }
+
+    *chunk_size = cur_len;
+    printf("string length : %d", *chunk_size);
+    buf[cur_len] = '\0';
+    strcpy(p_string_chunk, buf);
+
+    fclose(f);
+    return 0;
+
+non_clean:
+    printf("\n\n#### NON CLEAN #### \n");
+    fclose(f);
+    return -1;
+}
 

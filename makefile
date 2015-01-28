@@ -9,7 +9,7 @@ CLIENT_OBJS = client.o common_utils.o client_pkt_handlers.o
 all: server client
 
 %.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CCFLAGS) $(LIBS)
+	$(CC) -c -o $@ $< $(CCFLAGS) 
 
 server: $(SERVER_OBJS) 
 	$(CC) -o $@ $(SERVER_OBJS) $(CCFLAGS) $(LIBS) 

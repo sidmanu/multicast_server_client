@@ -55,7 +55,8 @@ typedef enum {
 } task_status_t ;
 
 typedef enum {
-    SUBTASK_DISPATCHED = 1,
+    SUBTASK_NOT_DISPATCHED = 1,
+    SUBTASK_DISPATCHED,
     SUBTASK_RUNNING,
     SUBTASK_COMPLETED,
     SUBTASK_TIMED_OUT
@@ -88,6 +89,7 @@ struct client_info_data *db_get_client_by_socket(int sock_id);
 
 struct group_info_node {
 	int grp_id;
+    int num_members;
 	struct client_info_list_node *members;
 	struct group_info_node *next;
 };
@@ -106,7 +108,7 @@ struct running_subtask {
 	time_t start_time;
 	time_t end_time;
     int input_data_len;
-    char input_data[0];
+    char *input_data;
     struct running_subtask *next;
 };
 
@@ -134,10 +136,21 @@ struct input_task {
 int db_task_new(int task_id,
         int grp_id,
         task_type_t type,
-        const char *input_file);
+        const struct input_task *task,
+        struct running_task **pp_task);
 
 struct running_task * db_get_task_by_task_id(int task_id);
 
+/* Sub task API */
+
+int db_subtask_new(int subtask_id,
+        int input_data_len,
+        char *input_data,
+        struct running_task *pp_run_task);
+
+struct running_subtask * db_get_subtask_by_subtask_id(int subtask_id,
+        struct running_subtask *subtasks_head);
 
 
+void db_subtasks_print(struct running_task *p_run_task);
 #endif

@@ -7,6 +7,10 @@
 #include "server_db.h"
 #include "server_coordinator.h"
 
+
+
+
+
 static int file_exists (const char *filename)
 {
   struct stat buffer;   
@@ -43,8 +47,6 @@ run_task_sum_csv()
 
 	server_dist_task_to_clients(chosen_grp_id, &task); 
 }
-
-
 
 static void
 exec_choice(int choice)

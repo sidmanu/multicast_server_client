@@ -25,6 +25,18 @@ msg_chk_free_handler(
 
 }
 
+void 
+msg_task_assign_handler(
+			const void *payload, const size_t pyld_size, 
+			const pkt_type type)
+{
+    struct msg_task_assign_pld *task_pld;
+    task_pld = (void *)payload;
+
+    printf("Received a subtask. subtask_id: %d\n", task_pld->subtask_id );
+    printf("data: %s\n", task_pld->data); 
+    
+}
 
 void *client_recv_thread_fn(void *t_args)
 {
@@ -45,14 +57,17 @@ void *client_recv_thread_fn(void *t_args)
 		switch (type) {
 		case MSG_CHK_FREE:
 				msg_chk_free_handler(rx_buffer, rx_sz, type);
-				pthread_exit(NULL);
+                break;
+        case MSG_TASK_ASSIGN:
+                msg_task_assign_handler(rx_buffer, rx_sz, type);
+                break;
+
 		default:
 			printf("\nUnexpected message!!!");
 		}
 		free(rx_buffer);
 	}
 	pthread_exit(NULL);
-
 }
 /*Chaitanya : periodic heartbeat client thread */
 void *client_heartbeat_thread_fn(void *t_args)

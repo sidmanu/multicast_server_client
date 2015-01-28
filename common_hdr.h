@@ -18,6 +18,7 @@
 #define MAGIC 0xCA0000CB
 #define MAXDATEBUF 25
 #define MAXFILENAME 25
+#define MAXCHUNKSIZE 10 
 #define DEBUG 1
 #define DEBUG_2 0
 #define DEBUG_3 0

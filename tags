@@ -4,12 +4,13 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.6	//
-DEBUG	./common_hdr.h	21;"	d
-DEBUG_2	./common_hdr.h	22;"	d
-DEBUG_3	./common_hdr.h	23;"	d
+DEBUG	./common_hdr.h	22;"	d
+DEBUG_2	./common_hdr.h	23;"	d
+DEBUG_3	./common_hdr.h	24;"	d
 FALSE	./common_hdr.h	/^	FALSE = 0,$/;"	e	enum:truth_vals
 MAGIC	./common_hdr.h	18;"	d
 MAXBUFFER	./common_hdr.h	15;"	d
+MAXCHUNKSIZE	./common_hdr.h	21;"	d
 MAXDATASIZE	./common_hdr.h	14;"	d
 MAXDATEBUF	./common_hdr.h	19;"	d
 MAXDESC	./common_hdr.h	17;"	d
@@ -31,7 +32,8 @@ MSG_TASK_FAIL	./common_hdr.h	/^	MSG_TASK_FAIL,$/;"	e	enum:__anon1
 NOFLAGS	./common_hdr.h	12;"	d
 PACKED	./common_hdr.h	/^} PACKED;$/;"	v	typeref:struct:pkt
 SUBTASK_COMPLETED	./server_db.h	/^    SUBTASK_COMPLETED,$/;"	e	enum:__anon4
-SUBTASK_DISPATCHED	./server_db.h	/^    SUBTASK_DISPATCHED = 1,$/;"	e	enum:__anon4
+SUBTASK_DISPATCHED	./server_db.h	/^    SUBTASK_DISPATCHED,$/;"	e	enum:__anon4
+SUBTASK_NOT_DISPATCHED	./server_db.h	/^    SUBTASK_NOT_DISPATCHED = 1,$/;"	e	enum:__anon4
 SUBTASK_RUNNING	./server_db.h	/^    SUBTASK_RUNNING,$/;"	e	enum:__anon4
 SUBTASK_TIMED_OUT	./server_db.h	/^    SUBTASK_TIMED_OUT$/;"	e	enum:__anon4
 TASK_ABORTED	./server_db.h	/^    TASK_ABORTED,$/;"	e	enum:__anon3
@@ -50,7 +52,7 @@ _SERVER_DB_H	./server_db.h	2;"	d
 _SERVER_PKT_HANDLERS_H	./server_pkt_handlers.h	2;"	d
 buffer	./server_db.h	/^	char buffer[MAXBUFFER];$/;"	m	struct:client_info_data
 busy_state	./client.c	/^int busy_state;$/;"	v
-client	./server_db.h	/^    struct client_info_node *client;$/;"	m	struct:running_subtask	typeref:struct:running_subtask::client_info_node
+client	./server_db.h	/^    struct client_info_data *client;$/;"	m	struct:running_subtask	typeref:struct:running_subtask::client_info_data
 client_heartbeat_thread	./client.c	/^pthread_t client_heartbeat_thread;$/;"	v
 client_heartbeat_thread_fn	./client_pkt_handlers.c	/^void *client_heartbeat_thread_fn(void *t_args)$/;"	f
 client_info_data	./server_db.h	/^struct client_info_data {$/;"	s
@@ -67,13 +69,16 @@ db_client_del	./server_db.c	/^void db_client_del(struct client_info_data *data)$
 db_client_new	./server_db.c	/^void db_client_new(struct client_info_data *data)$/;"	f
 db_get_client_by_socket	./server_db.c	/^db_get_client_by_socket(int sock_id)$/;"	f
 db_get_group_by_grp_id	./server_db.c	/^struct group_info_node *db_get_group_by_grp_id(int grp_id)$/;"	f
+db_get_subtask_by_subtask_id	./server_db.c	/^struct running_subtask * db_get_subtask_by_subtask_id(int subtask_id, $/;"	f
 db_get_task_by_task_id	./server_db.c	/^struct running_task * db_get_task_by_task_id(int task_id)$/;"	f
 db_group_add_member	./server_db.c	/^int db_group_add_member(int group_id, $/;"	f
 db_group_new	./server_db.c	/^void db_group_new(int group_id)$/;"	f
+db_subtask_new	./server_db.c	/^int db_subtask_new(int subtask_id,$/;"	f
+db_subtasks_print	./server_db.c	/^void db_subtasks_print(struct running_task *p_run_task)$/;"	f
 db_task_new	./server_db.c	/^int db_task_new(int task_id,$/;"	f
-debug_print	./common_hdr.h	25;"	d
-debug_print_2	./common_hdr.h	30;"	d
-debug_print_3	./common_hdr.h	34;"	d
+debug_print	./common_hdr.h	26;"	d
+debug_print_2	./common_hdr.h	31;"	d
+debug_print_3	./common_hdr.h	35;"	d
 desc	./server_db.h	/^	char desc[MAXDESC];$/;"	m	struct:running_task
 end_time	./server_db.h	/^	time_t end_time;$/;"	m	struct:running_subtask
 end_time	./server_db.h	/^	time_t end_time;$/;"	m	struct:running_task
@@ -81,8 +86,8 @@ exec_choice	./server_tasks.c	/^exec_choice(int choice)$/;"	f	file:
 file_exists	./server_tasks.c	/^static int file_exists (const char *filename)$/;"	f	file:
 free	./common_hdr.h	/^	enum truth_vals free;$/;"	m	struct:msg_chk_free_resp_pld	typeref:enum:msg_chk_free_resp_pld::truth_vals
 get_epochseconds_now	./common_hdr.h	/^static inline long int get_epochseconds_now(void)$/;"	f
-get_file_chunks	./server_coordinator.c	/^static int get_file_chunks(const char *mother_file,$/;"	f	file:
 get_in_addr	./client.c	/^*get_in_addr(struct sockaddr *sa)$/;"	f	file:
+get_next_chunk	./common_utils.c	/^int get_next_chunk(char *input_file_name, int offset,$/;"	f
 global_db	./server_db.h	/^struct global_db {$/;"	s
 group_info_node	./server_db.h	/^struct group_info_node {$/;"	s
 group_list	./server_db.h	/^	struct group_info_node *group_list;$/;"	m	struct:global_db	typeref:struct:global_db::group_info_node
@@ -106,7 +111,7 @@ init_server_socket	./server.c	/^init_server_socket(int argc, char *argv[])$/;"	f
 init_signal_handler	./client.c	/^init_signal_handler()$/;"	f	file:
 init_socket	./client.c	/^init_socket(int argc, char *argv[]) $/;"	f	file:
 init_user_interactor	./server.c	/^init_user_interactor()$/;"	f	file:
-input_data	./server_db.h	/^    char input_data[0];$/;"	m	struct:running_subtask
+input_data	./server_db.h	/^    char *input_data;$/;"	m	struct:running_subtask
 input_data_len	./server_db.h	/^    int input_data_len;$/;"	m	struct:running_subtask
 input_file	./server_db.h	/^	char input_file[MAXFILENAME];	$/;"	m	struct:input_task
 input_file	./server_db.h	/^	char input_file[MAXFILENAME];$/;"	m	struct:running_task
@@ -131,6 +136,7 @@ next	./server_db.h	/^	struct group_info_node *next;$/;"	m	struct:group_info_node
 next	./server_db.h	/^    struct running_subtask *next;$/;"	m	struct:running_subtask	typeref:struct:running_subtask::running_subtask
 next	./server_db.h	/^    struct running_task *next;$/;"	m	struct:running_task	typeref:struct:running_task::running_task
 num_clients	./server_db.h	/^    int num_clients;$/;"	m	struct:running_task
+num_members	./server_db.h	/^    int num_members;$/;"	m	struct:group_info_node
 output	./common_hdr.h	/^    int output;$/;"	m	struct:msg_task_result_pld
 parent_task_id	./server_db.h	/^    int parent_task_id;$/;"	m	struct:running_subtask
 periodic_print_thread_fn	./server_threads.c	/^void *periodic_print_thread_fn(void *t_args)$/;"	f
@@ -148,9 +154,11 @@ quit_handler	./server_pkt_handlers.c	/^void quit_handler(struct client_info_data
 run_task_sum_csv	./server_tasks.c	/^run_task_sum_csv()$/;"	f	file:
 running_subtask	./server_db.h	/^struct running_subtask {$/;"	s
 running_task	./server_db.h	/^struct running_task {$/;"	s
-server_dispatch_task_to_client	./server_coordinator.c	/^server_dispatch_task_to_client(struct client_info_node *cl_node,$/;"	f
+server_dispatch_task_to_client	./server_coordinator.c	/^server_dispatch_task_to_client($/;"	f
 server_dist_task_to_clients	./server_coordinator.c	/^server_dist_task_to_clients(const int grp_id,$/;"	f
 server_sockfd	./server.c	/^int server_sockfd;$/;"	v
+server_task_exec	./server_coordinator.c	/^server_task_exec(struct running_subtask *p_subtask, struct client_info_data *p_client_data)$/;"	f
+server_task_split	./server_coordinator.c	/^int server_task_split(struct running_task *p_rt)$/;"	f
 sigint_handler	./client.c	/^sigint_handler(int s)$/;"	f	file:
 socket	./server_db.h	/^	int socket;$/;"	m	struct:client_info_data
 sockfd	./client.c	/^int sockfd;$/;"	v
@@ -169,6 +177,7 @@ task_id	./common_hdr.h	/^	int task_id;$/;"	m	struct:msg_chk_free_pld
 task_id	./server_db.h	/^	int task_id;$/;"	m	struct:running_task
 task_list	./server_db.h	/^    struct running_task *task_list;$/;"	m	struct:global_db	typeref:struct:global_db::running_task
 task_menu	./server_tasks.c	/^void task_menu()$/;"	f
+task_split	./server_coordinator.c	/^static int task_split(const struct running_task *rt)$/;"	f	file:
 task_status_t	./server_db.h	/^} task_status_t ;$/;"	t	typeref:enum:__anon3
 task_type	./server_db.h	/^	task_type_t task_type;$/;"	m	struct:running_task
 task_type_t	./common_hdr.h	/^} task_type_t;$/;"	t	typeref:enum:__anon2
