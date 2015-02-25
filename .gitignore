@@ -1,0 +1,10 @@
+#object files
+*.o
+*.in
+*.out
+
+#csv file
+*.csv
+
+#swap files
+*.swp

@@ -1,0 +1,68 @@
+
+
+Let us write down a list of things we wanna put in the slides. Let us not have a slide-deck of more than 10 slides. What say?
+
+Chaitanya's answer: [Y/N] - - - ? ? ?
+
+Not a valid answer :P anyways
+
+---------Total 10 slides ----------------
+- Our Approach philosophy
+    - Modular code
+    - Keep it simple
+    - Add scale/parallelism measures when needed
+    - Avoid unnecessary complications
+
+- Structure 
+    - Message codes & Payloads (TLV)
+    - Server
+        - Separate thread for accepting connections
+        - Separate thread with select() for send/receive via sockets  
+        - Thread for client heartbeat monitoring
+        - Thread for user interaction - holds stdin and stdout
+    - Client
+        - Thread for sending heartbeats
+        - Thread to receive tasks & respond with result
+
+
+- Group Management DB
+    - Client info nodes
+    - Global Client List with list-nodes pointing to client_info []---[]---[]-x
+    - Group Indexed client list, pointing to client_info
+
+- Task Management DB
+    - Running Task Info
+    - Each task has a list of subtasks
+        - subtasks have
+            - status
+            - payload
+            - output - after being processed
+    - Each subtask can be dispatched to clients & updated upon client's reply
+
+- Sequence diagram (Task-flow)
+
+- Server/Clients coordination
+    - Server maintains the status of client's busy/free state
+    - Server only dispatches tasks to client's that are free (Assuming a client is running a single thread)
+
+- Common utility code
+    - Splitting file into optimal chunks
+    - Processing subtask of adding CSV values
+    - Assimilating Inputs
+
+- Fault Tolerance
+    - If client dies, heartbeat failures are reported and client is freed
+    - If task isn't completed or is aborted, it is re-dispatched to client
+        
+- Scalability
+    - Currently server scales upto 50,000 clients
+    - Can take huge file inputs (>100MB)
+
+- For future proofing (Enhancements)
+    - Increase number of task-coordination threads
+    - Use other mechanisms for socket communication, e.g. Epoll
+    - Implement fair scheduling algo on server side
+    - Implement multi-threaded clients
+
+- Thank You!
+-------------------------------------------
