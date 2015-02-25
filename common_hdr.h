@@ -18,7 +18,7 @@
 #define MAGIC 0xCA0000CB
 #define MAXDATEBUF 25
 #define MAXFILENAME 25
-#define MAXCHUNKSIZE 10 
+#define MAXCHUNKSIZE 1024 
 #define DEBUG 1
 #define DEBUG_2 0
 #define DEBUG_3 0
@@ -50,12 +50,16 @@ typedef enum {
 	MSG_FREE_OK,
 	MSG_FREE_NOK,
 	MSG_TASK_ASSIGN,
-	MSG_TASK_DONE,
-	MSG_TASK_FAIL,
+	MSG_TASK_RESULT,
 	MSG_QUIT,
 } pkt_type;
 
-
+typedef enum {
+	STATUS_SUCCESS = 0,
+	STATUS_FAILURE,
+	STATUS_ABORTED,
+} status_code_t;
+	
 /* Payloads */
 
 struct msg_join_grp_pld {
@@ -73,14 +77,16 @@ struct msg_chk_free_resp_pld {
 
 struct msg_task_assign_pld {
     int len;
+    int running_task_id;
     int subtask_id;
     char data[0];
 };
 
 struct msg_task_result_pld {
-    int status; 
+    status_code_t status; 
+    int running_task_id;
     int subtask_id;
-    int output;
+    long output;
 };
 
 

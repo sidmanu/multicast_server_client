@@ -1,4 +1,4 @@
-cscope 15 /nobackup/chagoyal/multicast_server_client -q 0000000399 0000033348
+cscope 15 /nobackup/chagoyal/multicast_server_client -q 0000000409 0000035575
 	@client.c
 
 1 
@@ -825,17 +825,29 @@ msg_èsk_assign_∂d
 èsk_∂d
 ;
 
-35 
+35 
+msg_èsk_ªsu…_∂d
+ *
+ª•_∂d
+;
+
+37 
+∂d_sz
+, 
+numbyãs
+;
+
+38 
+sum
+;
+
+40 
 èsk_∂d
  = (*)
 ∑ylﬂd
 ;
 
-37 
-sum
-;
-
-39 
+43 
 	`¥ötf
 ("Re˚ivedá subèsk. subèsk_id: %d\n", 
 èsk_∂d
@@ -843,7 +855,7 @@ sum
 subèsk_id
  );
 
-40 
+44 
 	`¥ötf
 ("d©a: %s\n", 
 èsk_∂d
@@ -851,7 +863,7 @@ subèsk_id
 d©a
 );
 
-42 
+46 
 sum
  = 
 	`do_w‹k_sum_csv
@@ -861,49 +873,127 @@ sum
 d©a
 );
 
-44 
+47 
+	`¶ìp
+(5000);
+
+48 
+∂d_sz
+ = (
+msg_èsk_ªsu…_∂d
+);
+
+49 
+ª•_∂d
+ = 
+	`mÆloc
+(
+∂d_sz
+);
+
+50 
+	`mem£t
+(
+ª•_∂d
+, 0, (*resp_pld));
+
+52 
+ª•_∂d
+->
+°©us
+ = 
+STATUS_SUCCESS
+;
+
+53 
+ª•_∂d
+->
+subèsk_id
+ = 
+èsk_∂d
+->subtask_id;
+
+54 
+ª•_∂d
+->
+ru¬ög_èsk_id
+ = 
+èsk_∂d
+->running_task_id;
+
+55 
+ª•_∂d
+->
+ouçut
+ = 
+sum
+;
+
+57 
+numbyãs
+ = 
+	`pkt_£nd
+(
+sockfd
+, 
+MSG_TASK_RESULT
+,
+
+58 
+ª•_∂d
+, 
+∂d_sz
+);
+
+59 
 	`¥ötf
 ("Sum: %ld\n", 
 sum
 );
 
-46 
+61 
+	`‰ì
+(
+ª•_∂d
+);
+
+63 
 	}
 }
 
-48 *
+65 *
 	$˛õ¡_ªcv_thªad_‚
 (*
 t_¨gs
 )
 
-50 *
+67 *
 rx_buf„r
  = 
 NULL
 ;
 
-51 
+68 
 size_t
  
 rx_sz
 ;
 
-52 
+69 
 pkt_ty≥
  
 ty≥
 ;
 
-53 
+70 
 ªt
 ;
 
-57 
+74 
 	`debug_¥öt
 ("recv from server socket %s", "");
 
-58 
+75 
 ªt
  = 
 	`pkt_ªcv
@@ -917,25 +1007,25 @@ rx_sz
 ty≥
 );
 
-59 i‡(-1 =
+76 i‡(-1 =
 ªt
  || !
 rx_buf„r
 ) {
 
-60 
+77 
 	`≥º‹
  ("recv");
 
-64 
+81 
 ty≥
 ) {
 
-65 
+82 
 MSG_CHK_FREE
 :
 
-66 
+83 
 	`msg_chk_‰ì_h™dÀr
 (
 rx_buf„r
@@ -945,11 +1035,11 @@ rx_sz
 ty≥
 );
 
-68 
+85 
 MSG_TASK_ASSIGN
 :
 
-69 
+86 
 	`msg_èsk_assign_h™dÀr
 (
 rx_buf„r
@@ -959,57 +1049,57 @@ rx_sz
 ty≥
 );
 
-73 
+90 
 	`¥ötf
 ("\nUnexpected message!!!");
 
-75 
+92 
 	`‰ì
 (
 rx_buf„r
 );
 
-77 
+94 
 	`±hªad_exô
 (
 NULL
 );
 
-78 
+95 
 	}
 }
 
-80 *
+97 *
 	$˛õ¡_hóπbót_thªad_‚
 (*
 t_¨gs
 )
 
-84 
+101 
 	`¶ìp
 (3);
 
-85 
+102 
 numbyãs
  = 0;
 
-86 
+103 
 buf
 [
 MAXBUFFER
 ];
 
-87 
+104 
 time_t
  
 now
 ;
 
-90 
+107 
 buf_ãmp
 [80];
 
-92 
+109 
 	`°r·ime
 (
 buf_ãmp
@@ -1017,25 +1107,25 @@ buf_ãmp
 ts
 );
 
-93 
+110 
 	`debug_¥öt_2
 ("%s\n", 
 buf_ãmp
 );
 
-95 
+112 
 now
  = 
 	`gë_ïoch£c⁄ds_now
 ();
 
-96 
+113 
 	`debug_¥öt_2
 ("Epoch: %ld\n", (Ë
 now
 );
 
-97 
+114 
 	`•rötf
 (
 buf
@@ -1043,7 +1133,7 @@ buf
 now
 );
 
-99 
+116 
 numbyãs
  = 
 	`pkt_£nd
@@ -1057,21 +1147,21 @@ buf
 	`°æí
 (buf));
 
-100 i‡(-1 =
+117 i‡(-1 =
 numbyãs
 )
 
-102 
+119 
 	`≥º‹
 ("send");
 
-105 
+122 
 	`±hªad_exô
 (
 NULL
 );
 
-106 
+123 
 	}
 }
 
@@ -1377,7 +1467,7 @@ _COMMON_HDR_H
 
 21 
 	#MAXCHUNKSIZE
- 10
+ 1024
 
 	)
 
@@ -1518,122 +1608,144 @@ __VA_ARGS__
 ,
 
 53 
-	mMSG_TASK_DONE
+	mMSG_TASK_RESULT
 ,
 
 54 
-	mMSG_TASK_FAIL
-,
-
-55 
 	mMSG_QUIT
 ,
 
-56 } 
+55 } 
 	tpkt_ty≥
 ;
 
-61 
+58 
+	mSTATUS_SUCCESS
+ = 0,
+
+59 
+	mSTATUS_FAILURE
+,
+
+60 
+	mSTATUS_ABORTED
+,
+
+61 } 
+	t°©us_code_t
+;
+
+65 
 	smsg_joö_gΩ_∂d
  {
 
-62 
+66 
 	mgΩ_id
 ;
 
-66 
+70 
 	smsg_chk_‰ì_∂d
  {
 
-67 
+71 
 	mèsk_id
 ;
 
-70 
+74 
 	smsg_chk_‰ì_ª•_∂d
  {
 
-71 
+75 
 åuth_vÆs
  
 	m‰ì
 ;
 
-74 
+78 
 	smsg_èsk_assign_∂d
  {
 
-75 
+79 
 	mÀn
 ;
 
-76 
+80 
+	mru¬ög_èsk_id
+;
+
+81 
 	msubèsk_id
 ;
 
-77 
+82 
 	md©a
 [0];
 
-80 
+85 
 	smsg_èsk_ªsu…_∂d
  {
 
-81 
+86 
+°©us_code_t
+ 
 	m°©us
 ;
 
-82 
+87 
+	mru¬ög_èsk_id
+;
+
+88 
 	msubèsk_id
 ;
 
-83 
+89 
 	mouçut
 ;
 
-88 
+94 
 	mTASK_SUM
  = 1,
 
-89 } 
+95 } 
 	tèsk_ty≥_t
 ;
 
-91 
+97 
 	spkt
  {
 
-92 
+98 
 	mmagic
 ;
 
-93 
+99 
 pkt_ty≥
  
 	mty≥
 ;
 
-94 
+100 
 size_t
  
 	mÀn
 ;
 
-95 
+101 
 	md©a
 [0];
 
-96 } 
+102 } 
 	gPACKED
 ;
 
-98 
+104 
 ölöe
  
 	$gë_ïoch£c⁄ds_now
 ()
 
-100 
+106 
 time_t
  
 ïoch_£c⁄ds
@@ -1641,19 +1753,19 @@ time_t
 now
 ;
 
-101 
+107 
 tm
  
 ts
 ;
 
-103 
+109 
 	`time
 (&
 now
 );
 
-104 
+110 
 ts
  = *
 	`loˇ…ime
@@ -1661,7 +1773,7 @@ ts
 now
 );
 
-105 
+111 
 ïoch_£c⁄ds
  = 
 	`mktime
@@ -1669,15 +1781,15 @@ now
 ts
 );
 
-106  
+112  
 ïoch_£c⁄ds
 ;
 
-107 
+113 
 	}
 }
 
-109 
+115 
 ölöe
  
 size_t
@@ -1697,7 +1809,7 @@ size_t
 d©a_size
 )
 
-111 
+117 
 pkt
  *
 p
@@ -1705,21 +1817,21 @@ p
 NULL
 ;
 
-112 
+118 
 size_t
  
 sz
 ;
 
-114 
+120 
 d©a_£¡
 ;
 
-115 
+121 
 off£t
  = 0;
 
-117 
+123 
 sz
  = (
 pkt
@@ -1727,7 +1839,7 @@ pkt
 d©a_size
 ;
 
-118 
+124 
 p
  = 
 	`mÆloc
@@ -1735,19 +1847,19 @@ p
 sz
 );
 
-120 i‡(!
+126 i‡(!
 p
 ) {
 
-121 
+127 
 	`≥º‹
 ("Error in malloc ofÖacket");
 
-122 
+128 
 	`as£π
 (0);
 
-125 
+131 
 	`mem£t
 (
 p
@@ -1755,7 +1867,7 @@ p
 sz
 );
 
-126 
+132 
 p
 ->
 magic
@@ -1763,13 +1875,13 @@ magic
 MAGIC
 ;
 
-127 
+133 
 p
 ->
 ty≥
  =Åype;
 
-128 
+134 
 p
 ->
 Àn
@@ -1777,7 +1889,7 @@ p
 d©a_size
 ;
 
-129 
+135 
 	`mem˝y
 (
 p
@@ -1787,15 +1899,15 @@ d©a
 d©a_size
 );
 
-130 #ifde‡
+136 #ifde‡
 LOG
 
 
-131 
+137 
 	`¥ötf
 ("SendingÖkt size:%zuÖayload_len: %zuÖktÅype:%d\n",
 
-132 
+138 
 sz
 , 
 p
@@ -1805,7 +1917,7 @@ p
 ty≥
 );
 
-136 
+142 
 d©a_£¡
  = 
 	`£nd
@@ -1821,39 +1933,39 @@ sz
 NOFLAGS
 );
 
-137 i‡(
+143 i‡(
 d©a_£¡
  < 
 sz
  ) {
 
-138 
+144 
 sz
  = sz - 
 d©a_£¡
 ;
 
-139 
+145 
 off£t
  = off£à+
 d©a_£¡
 ;
 
-145 
+151 
 	`‰ì
 (
 p
 );
 
-147  
+153  
 d©a_size
 ;
 
-148 
+154 
 	}
 }
 
-150 
+156 
 ölöe
  
 	$pkt_ªcv
@@ -1871,41 +1983,41 @@ pkt_ty≥
 ty≥
 )
 
-152 *
+158 *
 rx_buf
  = 
 NULL
 ;
 
-156 
+162 
 pkt
  
 dummy
 ;
 
-157 
+163 
 size_t
  
 pkt_Àn
 ;
 
-158 
+164 
 size_t
  
 ∑ylﬂd_Àn
 ;
 
-159 
+165 
 size_t
  
 rcvd_byãs
 ;
 
-160 
+166 
 off£t
  = 0;
 
-162 
+168 
 pkt_Àn
  = 
 	`ªcv
@@ -1919,15 +2031,15 @@ pkt
 NOFLAGS
 );
 
-164 #ifde‡
+170 #ifde‡
 LOG
 
 
-165 
+171 
 	`¥ötf
 ("Rxbytes: %zu, magic: %xÖkt_type: %d,Öayload_len: %zu\n",
 
-166 
+172 
 pkt_Àn
 , 
 dummy
@@ -1939,13 +2051,13 @@ ty≥
 Àn
 );
 
-169 *
+175 *
 ty≥
  = 
 dummy
 .type;
 
-170 
+176 
 ∑ylﬂd_Àn
  = 
 dummy
@@ -1953,13 +2065,13 @@ dummy
 Àn
 ;
 
-171 *
+177 *
 d©a_size
  = 
 ∑ylﬂd_Àn
 ;
 
-173 *
+179 *
 rx_buf
  = 
 	`mÆloc
@@ -1967,15 +2079,15 @@ rx_buf
 ∑ylﬂd_Àn
 );
 
-174 i‡(!
+180 i‡(!
 rx_buf
 ) {
 
-175 
+181 
 	`≥º‹
 ("Error in malloc duringÖkt_recv");
 
-180 
+186 
 rcvd_byãs
  = 
 	`ªcv
@@ -1991,13 +2103,13 @@ off£t
 NOFLAGS
 );
 
-182 i‡(
+188 i‡(
 rcvd_byãs
  < 
 ∑ylﬂd_Àn
 ) {
 
-183 
+189 
 off£t
  = 
 ∑ylﬂd_Àn
@@ -2005,7 +2117,7 @@ off£t
 rcvd_byãs
 ;
 
-191 
+197 
 	}
 }
 
@@ -2169,13 +2281,21 @@ DELTA
 buf
 [
 MAXCHUNKSIZE
-];
+ + 1] = {'\0'};
 
 53 
 cur_Àn
 ;
 
-55 
+54 
+ªt
+ = 0;
+
+55 
+ödex
+;
+
+56 
 f
  = 
 	`f›í
@@ -2183,7 +2303,7 @@ f
 öput_fûe_«me
 , "r");
 
-56 
+57 
 	`f£ek
 (
 f
@@ -2193,89 +2313,93 @@ off£t
 SEEK_SET
 );
 
-57 
+58 
 cur_Àn
  = 
 	`‰ód
 (
 buf
-, 1, 
+, (), 
 MAXCHUNKSIZE
 , 
 f
 );
 
-58 i‡(
-cur_Àn
- < 
-MAXCHUNKSIZE
-)
-
-59 
-n⁄_˛ón
-;
-
-62 
-cur_Àn
- > 0) {
-
-63 
-cur_Àn
---;
-
-64 i‡(
+62 if(
 buf
-[
-cur_Àn
- - 1] == ',')
+ =
+NULL
+ || buf[0] == '\0')
 
-68 *
-chunk_size
- = 
-cur_Àn
-;
-
-69 
-	`¥ötf
-("°rögÜígth : %d", *
-chunk_size
-);
-
-70 
+64 
 buf
 [
 cur_Àn
 ] = '\0';
 
-71 
-	`°r˝y
+65 
+ödex
+ = 
+cur_Àn
+ - 1;
+
+66 
+ödex
+ > 0 && (
+cur_Àn
+ + 1Ë=
+MAXCHUNKSIZE
+) {
+
+67 i‡(
+buf
+[
+ödex
+] == ',')
+
+69 
+ödex
+--;
+
+71 if(
+buf
+[
+ödex
+] == '\n') {
+
+72 
+ªt
+ = -1;
+
+74 *
+chunk_size
+ = 
+cur_Àn
+ = 
+ödex
+;
+
+75 
+	`°∫˝y
 (
 p_°rög_chunk
 , 
 buf
+,
+cur_Àn
 );
-
-73 
-	`f˛o£
-(
-f
-);
-
-76 
-n⁄_˛ón
-:
 
 77 
-	`¥ötf
-("\n\n#### NON CLEAN #### \n");
-
-78 
 	`f˛o£
 (
 f
 );
 
-80 
+78  
+ªt
+;
+
+79 
 	}
 }
 
@@ -2823,11 +2947,27 @@ rx_sz
 ty≥
 );
 
-147 
+148 
+MSG_TASK_RESULT
+:
+
+149 
+	`èsk_ªsu…_h™dÀr
+(
+˛õ¡_öfo
+, 
+rx_buf„r
+, 
+rx_sz
+, 
+ty≥
+);
+
+151 
 MSG_HEARTBEAT
 :
 
-148 
+152 
 	`hóπbót_h™dÀr
 (
 ˛õ¡_öfo
@@ -2835,31 +2975,31 @@ MSG_HEARTBEAT
 rx_buf„r
 );
 
-151 
+155 
 MSG_QUIT
 :
 
-152 
+156 
 	`quô_h™dÀr
 (
 ˛õ¡_öfo
 );
 
-156 
+160 
 	`¥ötf
  ("unknownÖacket!!!!");
 
-158 
+162 
 	`‰ì
  (
 rx_buf„r
 );
 
-160 
+164 
 	}
 }
 
-164 
+168 
 	$öô_£rvî_sockë
 (
 ¨gc
@@ -2867,17 +3007,17 @@ rx_buf„r
 ¨gv
 [])
 
-166 
+170 
 sockaddr_ö
  
 £rvî
 ;
 
-167 i‡(
+171 i‡(
 ¨gc
  != 2) {
 
-168 
+172 
 	`Ârötf
  (
 °dîr
@@ -2885,7 +3025,7 @@ sockaddr_ö
 ¨gv
 [0]);
 
-172 
+176 
 £rvî_p‹t_num
  = 
 	`©oi
@@ -2893,7 +3033,7 @@ sockaddr_ö
 ¨gv
 [1]);
 
-173 
+177 
 £rvî_sockfd
  = 
 	`sockë
@@ -2903,15 +3043,15 @@ AF_INET
 SOCK_STREAM
 , 0);
 
-174 i‡(
+178 i‡(
 £rvî_sockfd
  < 0)
 
-176 
+180 
 	`≥º‹
  ("server: socket");
 
-180 
+184 
 £rvî
 .
 sö_Ámûy
@@ -2919,7 +3059,7 @@ sö_Ámûy
 AF_INET
 ;
 
-181 
+185 
 £rvî
 .
 sö_addr
@@ -2929,7 +3069,7 @@ s_addr
 INADDR_ANY
 ;
 
-182 
+186 
 £rvî
 .
 sö_p‹t
@@ -2939,7 +3079,7 @@ sö_p‹t
 £rvî_p‹t_num
 );
 
-183 
+187 
 	`mem£t
  (&(
 £rvî
@@ -2947,7 +3087,7 @@ sö_p‹t
 sö_zîo
 ), 0,  (server.sin_zero));
 
-185 i‡(-1 =
+189 i‡(-1 =
 	`böd
  (
 £rvî_sockfd
@@ -2957,21 +3097,21 @@ sockaddr
 £rvî
 ,
 
-186  (
+190  (
 sockaddr
 )))
 
-188 
+192 
 	`˛o£
  (
 £rvî_sockfd
 );
 
-189 
+193 
 	`≥º‹
  ("server: bind");
 
-194 i‡(-1 =
+198 i‡(-1 =
 	`li°í
  (
 £rvî_sockfd
@@ -2979,19 +3119,19 @@ sockaddr
 MAXNUMCLIENTS
 ))
 
-196 
+200 
 	`≥º‹
  ("listen");
 
-200 
+204 
 	`¥ötf
  ("server: waiting for connections... \n");
 
-202 
+206 
 	}
 }
 
-206 
+210 
 	$√w_c⁄√˘i⁄
 (
 fd_£t
@@ -3001,59 +3141,59 @@ ma°î_fds
 fdmax
 )
 
-208 
+212 
 √wfd
 ;
 
-209 
+213 
 sockaddr_ö
  
 ˛õ¡_addr
 ;
 
-210 
+214 
 sockÀn_t
  
 sö_size
 ;
 
-212 
+216 
 ˛õ¡_öfo_d©a
  *
 d©a
 ;
 
-213 
+217 
 d©a
  = 
 	`mÆloc
 ((*data));
 
-214 i‡(!
+218 i‡(!
 d©a
 ) {
 
-215 
+219 
 	`≥º‹
 ("new_connection: Out of memory!\n");
 
-216 
+220 
 	`exô
 (1);
 
-219 
+223 
 	`mem£t
 (
 d©a
 , 0, (*data));
 
-221 
+225 
 sö_size
  =  (
 ˛õ¡_addr
 );
 
-222 
+226 
 √wfd
  = 
 	`ac˚±
@@ -3065,25 +3205,25 @@ sockaddr
 ˛õ¡_addr
 ,
 
-223 &
+227 &
 sö_size
 );
 
-224 i‡(
+228 i‡(
 √wfd
  == -1) {
 
-225 
+229 
 	`≥º‹
  ("accept");
 
-228 
+232 
 	`debug_¥öt_3
 ("ac˚±Åhê√w c⁄√˘i⁄ fromÇewfd=%d\n",
 √wfd
 );
 
-229 
+233 
 	`FD_SET
  (
 √wfd
@@ -3091,19 +3231,19 @@ sö_size
 ma°î_fds
 );
 
-230 i‡(
+234 i‡(
 √wfd
  > *
 fdmax
 ) {
 
-232 *
+236 *
 fdmax
  = 
 √wfd
 ;
 
-235 
+239 
 d©a
 ->
 sockë
@@ -3111,7 +3251,7 @@ sockë
 √wfd
 ;
 
-236 
+240 
 	`°∫˝y
 (
 d©a
@@ -3125,17 +3265,17 @@ ho°«me
 sö_addr
 ),
 
-237 
+241 
 MAXHOSTNAME
 );
 
-238 
+242 
 d©a
 ->
 pkt_cou¡
  = 0;
 
-239 
+243 
 d©a
 ->
 p‹t
@@ -3147,45 +3287,45 @@ p‹t
 sö_p‹t
 );
 
-240 
+244 
 	`db_˛õ¡_√w
 (
 d©a
 );
 
-241 
+245 
 	`¥ötf
  ("\nNew client joined (%s , %d)\n",
 
-242 
+246 
 d©a
 ->
 ho°«me
 ,
 
-243 
+247 
 d©a
 ->
 p‹t
 );
 
-246 
+250 
 	}
 }
 
-249 
+253 
 	$quô_≠p
 ()
 
-252 
+256 
 	`¥ötf
 ("\nGracefullyÉxiting!");
 
-253 
+257 
 	`exô
 (0);
 
-254 
+258 
 	}
 }
 
@@ -3394,6 +3534,30 @@ p_subèsk
 (0);
 
 41 
+p_subèsk
+->
+˛õ¡
+ = 
+p_˛õ¡
+;
+
+42 
+p_˛õ¡
+->
+is_busy
+ = 
+TRUE
+;
+
+43 
+p_subèsk
+->
+°©us
+ = 
+SUBTASK_DISPATCHED
+;
+
+44 
 ªq_∂d
 ->
 Àn
@@ -3403,7 +3567,7 @@ p_subèsk
 öput_d©a_Àn
 ;
 
-42 
+45 
 ªq_∂d
 ->
 subèsk_id
@@ -3411,7 +3575,17 @@ subèsk_id
 p_subèsk
 ->subtask_id;
 
-43 
+46 
+ªq_∂d
+->
+ru¬ög_èsk_id
+ = 
+p_subèsk
+->
+∑ª¡_èsk_id
+;
+
+48 
 	`mem˝y
 (
 ªq_∂d
@@ -3425,7 +3599,7 @@ p_subèsk
 öput_d©a_Àn
 );
 
-44 
+49 
 numbyãs
  = 
 	`pkt_£nd
@@ -3437,73 +3611,95 @@ sockë
 MSG_TASK_ASSIGN
 ,
 
-45 
+50 
 ªq_∂d
 , 
 ∂d_sz
 );
 
-46 i‡(
+51 i‡(
 numbyãs
  == -1) {
 
-47 
+52 
 	`¥ötf
 ("Error in sending MSG_TASK_ASSIGN");
 
-52 
+57 
+	`¥ötf
+("Dispatched subtaskÖ_subtask->parent_task_id - %d,Ö_subtask->subtask_id - %dÅo Client-id: %d\n",
+
+58 
+p_subèsk
+->
+∑ª¡_èsk_id
+,
+
+59 
+p_subèsk
+->
+subèsk_id
+,
+
+60 
+p_˛õ¡
+->
+sockë
+);
+
+62 
 	`‰ì
 (
 ªq_∂d
 );
 
-54 
+64 
 	}
 }
 
-57 
+67 
 	$£rvî_di°_èsk_to_˛õ¡s
 (c⁄° 
 gΩ_id
 ,
 
-58  c⁄° 
+68  c⁄° 
 öput_èsk
  *input_task)
 
-60 
+70 
 group_öfo_node
  *
 gΩ
 ;
 
-61 
+71 
 ˛õ¡_öfo_li°_node
  *
 ˛õ¡_li°_node
 ;
 
-62 
+72 
 ru¬ög_èsk
  *
 p_run_èsk
 ;
 
-63 
+73 
 gΩ_˛õ¡s_cou¡
  = 0;
 
-64 
+74 
 °©us
 ;
 
-67 
+77 
 	`¥ötf
 ("%s: group: %d, i≈ut_fûe: %s\n", 
 __FUNCTION__
 ,
 
-68 
+78 
 gΩ_id
 , 
 öput_èsk
@@ -3511,7 +3707,7 @@ gΩ_id
 öput_fûe
 );
 
-70 
+80 
 gΩ
  = 
 	`db_gë_group_by_gΩ_id
@@ -3519,21 +3715,21 @@ gΩ
 gΩ_id
 );
 
-71 i‡(!
+81 i‡(!
 gΩ
 ) {
 
-72 
+82 
 	`¥ötf
 ("Invalid group!\n");
 
-76 
+86 
 èsk_cou¡î
  = (èsk_cou¡î + 1Ë% 
 INT_MAX
 ;
 
-77 
+87 
 °©us
  = 
 	`db_èsk_√w
@@ -3549,103 +3745,41 @@ TASK_SUM
 p_run_èsk
 );
 
-78 i‡(
+88 i‡(
 °©us
  !0 || !
 p_run_èsk
 ) {
 
-79 
+89 
 	`¥ötf
 ("Couldn'tássignÇewÅask!");
 
-83 
+93 
 	`£rvî_èsk_•lô
 (
 p_run_èsk
 );
 
-85 
+94 
 	`db_subèsks_¥öt
 (
 p_run_èsk
 );
 
-87 
-ru¬ög_subèsk
- *
-p_subèsk
- = 
-p_run_èsk
-->
-subèsks_hód
-;
-
-88 
-˛õ¡_li°_node
- = 
-gΩ
-->
-membîs
-;
-
-89 
-˛õ¡_li°_node
- !
-NULL
-;
-
-90 
-˛õ¡_li°_node
- = clõ¡_li°_node->
-√xt
-) {
-
-91 
-gΩ_˛õ¡s_cou¡
- += 1;
-
-92 
-	`¥ötf
-("Clõ¡-id: %d, ", 
-˛õ¡_li°_node
-->
-d©a
-->
-sockë
-);
-
-93 
+95 
 	`£rvî_èsk_exec
 (
-p_subèsk
+p_run_èsk
 , 
-˛õ¡_li°_node
-->
-d©a
+gΩ
 );
 
-94 
-p_subèsk
- =Ö_subèsk->
-√xt
-;
-
-95 
-p_subèsk
-->
-˛õ¡
- = 
-˛õ¡_li°_node
-->
-d©a
-;
-
-101 
+98 
 	}
 }
 
-103 
+100 
 	$£rvî_èsk_•lô
 (
 ru¬ög_èsk
@@ -3653,7 +3787,7 @@ ru¬ög_èsk
 p_π
 )
 
-106 *
+103 *
 fûíame
  = 
 p_π
@@ -3661,29 +3795,29 @@ p_π
 öput_fûe
 ;
 
-107 
+104 
 buf
 [
 MAXCHUNKSIZE
-+2];
+];
 
-108 
+105 
 chunk_sz
 ;
 
-109 
+106 
 off£t
  = 0;
 
-110 
+107 
 ªt
 ;
 
-111 
+108 
 i
  = 0;
 
-114 
+111 
 ªt
  = 
 	`gë_√xt_chunk
@@ -3697,23 +3831,19 @@ chunk_sz
 buf
 );
 
-115 
-	`¥ötf
-("\nNexàchunk: i %d off£à%d \"%s\"",
-i
-, 
-off£t
-, 
-buf
+113 
+	`fÊush
+(
+°dout
 );
 
-116 
+114 
 off£t
  +
 chunk_sz
 ;
 
-117 
+115 
 	`db_subèsk_√w
 (
 i
@@ -3725,39 +3855,209 @@ buf
 p_π
 );
 
-118 
+116 
 i
 ++;
 
-119 } 
+117 } 
 ªt
  == 0);
 
-121 
+119 
 	}
 }
 
-124 
+122 
 	$£rvî_èsk_exec
 (
+ru¬ög_èsk
+ *
+p_run_èsk
+,
+
+123 
+group_öfo_node
+ *
+gΩ
+)
+
+125 
+ªt
+ = 0;
+
+126 
 ru¬ög_subèsk
  *
 p_subèsk
-, 
+ = 
+p_run_èsk
+->
+subèsks_hód
+;
+
+127 
+˛õ¡_öfo_li°_node
+ *
+˛õ¡_li°_node
+ = 
+gΩ
+->
+membîs
+;
+
+128 
 ˛õ¡_öfo_d©a
  *
-p_˛õ¡_d©a
-)
+p_˛õ¡
+;
 
-127 
+130 
+num_≥ndög
+ = 0;
+
+133 
+num_≥ndög
+ = 0;
+
+134 
+p_subèsk
+) {
+
+135 i‡(
+p_subèsk
+->
+°©us
+ =
+SUBTASK_NOT_DISPATCHED
+) {
+
+136 
+ªt
+ = 
+	`gë_‰ì_˛õ¡_‰om_gΩ
+(
+gΩ
+, &
+p_˛õ¡
+);
+
+137 i‡(
+ªt
+ != 0) {
+
+138 
+	`¥ötf
+("Waiting forátÜeast one clientÅo be free.. :) \n");
+
+142 
 	`£rvî_di•©ch_èsk_to_˛õ¡
 (
 p_subèsk
 , 
-p_˛õ¡_d©a
+p_˛õ¡
 );
 
-129 
+143 
+num_≥ndög
+++;
+
+145 
+p_subèsk
+ =Ö_subèsk->
+√xt
+;
+
+148 i‡(
+num_≥ndög
+ == 0) {
+
+149 
+	`¥ötf
+("AŒ Subèsk†com∂ëêf‹Ñu¬ög_èsk: %d\n", 
+p_run_èsk
+->
+èsk_id
+);
+
+152 
+p_subèsk
+ = 
+p_run_èsk
+->
+subèsks_hód
+;
+
+156 
+	}
+}
+
+158 
+	$gë_‰ì_˛õ¡_‰om_gΩ
+(
+group_öfo_node
+ *
+gΩ
+,
+
+159 
+˛õ¡_öfo_d©a
+ **
+µ_˛õ¡
+)
+
+161 
+ªt
+ = -1;
+
+162 
+˛õ¡_öfo_li°_node
+ *
+p_˛õ¡_node
+;
+
+163 
+p_˛õ¡_node
+ = 
+gΩ
+->
+membîs
+;
+
+164 
+p_˛õ¡_node
+) {
+
+165 i‡(!
+p_˛õ¡_node
+->
+d©a
+->
+is_busy
+) {
+
+166 *
+µ_˛õ¡
+ = 
+p_˛õ¡_node
+->
+d©a
+;
+
+167 
+	`¥ötf
+("Fªê˛õ¡: %d\n", 
+p_˛õ¡_node
+->
+d©a
+->
+sockë
+);
+
+171  
+ªt
+;
+
+172 
 	}
 }
 
@@ -3789,24 +4089,38 @@ gΩ_id
 èsk_öfo
 );
 
-11 
+10 
 £rvî_èsk_exec
 (
-ru¬ög_subèsk
+ru¬ög_èsk
  *
-subèsk
+p_run_èsk
 , 
-˛õ¡_öfo_d©a
+group_öfo_node
  *
-˛õ¡
+gΩ
 );
 
-14 
+13 
 £rvî_èsk_•lô
 (
 ru¬ög_èsk
  *
 p_π
+);
+
+17 
+gë_‰ì_˛õ¡_‰om_gΩ
+(
+group_öfo_node
+ *
+gΩ
+,
+
+18 
+˛õ¡_öfo_d©a
+ **
+µ_˛õ¡
 );
 
 	@server_db.c
@@ -4792,7 +5106,7 @@ subèsks_hód
 ;
 
 246 
-	`debug_¥öt
+	`debug_¥öt_2
 ("\nCreatedÇew subÅask. "
 
 248 
@@ -4925,145 +5239,155 @@ _SERVER_DB_H
 	~"£rvî.h
 "
 
-9 
+7 
+	~"°dboﬁ.h
+"
+
+10 
 globÆ_db
  
 db
 ;
 
-11 
+12 
 öô_globÆ_db
 ();
 
-19 
+20 
 	s˛õ¡_öfo_d©a
  {
 
-20 
+21 
 	möfo
 [
 MAXDESC
 ];
 
-21 
+22 
 	msockë
 ;
 
-23 
+24 
 	mhóπbót_ïoch_£c⁄ds
 ;
 
-24 
+25 
 	mho°«me
 [
 MAXHOSTNAME
 ];
 
-25 
+26 
 	mp‹t
 ;
 
-26 
+27 
 	mpkt_cou¡
 ;
 
-27 
+28 
+boﬁ
+ 
+	mis_busy
+;
+
+29 
 	mbuf„r
 [
 MAXBUFFER
 ];
 
-33 
+35 
 	s˛õ¡_öfo_li°_node
  {
 
-34 
+36 
 ˛õ¡_öfo_d©a
  *
 	md©a
 ;
 
-35 
+37 
 ˛õ¡_öfo_li°_node
  *
 	m√xt
 ;
 
-42 
+44 
 	sglobÆ_db
  {
 
-43 
+45 
 ˛õ¡_öfo_li°_node
  *
 	m˛õ¡_li°
 ;
 
-44 
+46 
 group_öfo_node
  *
 	mgroup_li°
 ;
 
-45 
+47 
 ru¬ög_èsk
  *
 	mèsk_li°
 ;
 
-46 
+48 
 	m˛õ¡s_cou¡
 ;
 
-50 
+52 
 	mTASK_UNASSIGNED
  = 1,
 
-51 
+53 
 	mTASK_ASSIGNED
 ,
 
-52 
+54 
 	mTASK_RUNNING
 ,
 
-53 
+55 
 	mTASK_ABORTED
 ,
 
-54 
+56 
 	mTASK_COMPLETED
 
 
-55 } 
+57 } 
 	tèsk_°©us_t
  ;
 
-58 
+60 
 	mSUBTASK_NOT_DISPATCHED
  = 1,
 
-59 
+61 
 	mSUBTASK_DISPATCHED
 ,
 
-60 
+62 
 	mSUBTASK_RUNNING
 ,
 
-61 
+63 
 	mSUBTASK_COMPLETED
 ,
 
-62 
+64 
 	mSUBTASK_TIMED_OUT
 
 
-63 } 
+65 } 
 	tsubèsk_°©us_t
  ;
 
-69 
+71 
 db_˛õ¡_√w
 (
 ˛õ¡_öfo_d©a
@@ -5071,7 +5395,7 @@ db_˛õ¡_√w
 d©a
 );
 
-70 
+72 
 db_˛õ¡_dñ
 (
 ˛õ¡_öfo_d©a
@@ -5079,7 +5403,7 @@ db_˛õ¡_dñ
 d©a
 );
 
-71 
+73 
 ˛õ¡_öfo_d©a
  *
 db_gë_˛õ¡_by_sockë
@@ -5087,49 +5411,49 @@ db_gë_˛õ¡_by_sockë
 sock_id
 );
 
-90 
+92 
 	sgroup_öfo_node
  {
 
-91 
+93 
 	mgΩ_id
 ;
 
-92 
+94 
 	mnum_membîs
 ;
 
-93 
+95 
 ˛õ¡_öfo_li°_node
  *
 	mmembîs
 ;
 
-94 
+96 
 group_öfo_node
  *
 	m√xt
 ;
 
-97 
+99 
 db_group_√w
 (
 group_id
 );
 
-98 
+100 
 db_group_add_membî
 (
 group_id
 ,
 
-99 
+101 
 ˛õ¡_öfo_d©a
  *
 ˛õ¡_öfo
 );
 
-100 
+102 
 group_öfo_node
  *
 db_gë_group_by_gΩ_id
@@ -5137,159 +5461,159 @@ db_gë_group_by_gΩ_id
 gΩ_id
 );
 
-103 
+105 
 	sru¬ög_subèsk
  {
 
-104 
+106 
 	m∑ª¡_èsk_id
 ;
 
-105 
+107 
 	msubèsk_id
 ;
 
-106 
+108 
 subèsk_°©us_t
  
 	m°©us
 ;
 
-107 
+109 
 ˛õ¡_öfo_d©a
  *
 	m˛õ¡
 ;
 
-108 
+110 
 time_t
  
 	m°¨t_time
 ;
 
-109 
+111 
 time_t
  
 	míd_time
 ;
 
-110 
+112 
 	möput_d©a_Àn
 ;
 
-111 *
+113 *
 	möput_d©a
 ;
 
-112 
+114 
 ru¬ög_subèsk
  *
 	m√xt
 ;
 
-116 
+118 
 	sru¬ög_èsk
  {
 
-117 
+119 
 	mgΩ_id
 ;
 
-118 
+120 
 	mèsk_id
 ;
 
-119 
+121 
 èsk_°©us_t
  
 	m°©us
 ;
 
-120 
+122 
 èsk_ty≥_t
  
 	mèsk_ty≥
 ;
 
-121 
+123 
 	mdesc
 [
 MAXDESC
 ];
 
-122 
+124 
 time_t
  
 	m°¨t_time
 ;
 
-123 
+125 
 time_t
  
 	míd_time
 ;
 
-124 
+126 
 	möput_fûe
 [
 MAXFILENAME
 ];
 
-125 
+127 
 	mnum_˛õ¡s
 ;
 
-126 
+128 
 ru¬ög_subèsk
  *
 	msubèsks_hód
 ;
 
-127 
+129 
 ru¬ög_èsk
  *
 	m√xt
 ;
 
-130 
+132 
 	söput_èsk
  {
 
-131 
+133 
 	möput_fûe
 [
 MAXFILENAME
 ];
 
-136 
+138 
 db_èsk_√w
 (
 èsk_id
 ,
 
-137 
+139 
 gΩ_id
 ,
 
-138 
+140 
 èsk_ty≥_t
  
 ty≥
 ,
 
-139 c⁄° 
+141 c⁄° 
 öput_èsk
  *
 èsk
 ,
 
-140 
+142 
 ru¬ög_èsk
  **
 µ_èsk
 );
 
-142 
+144 
 ru¬ög_èsk
  * 
 db_gë_èsk_by_èsk_id
@@ -5297,27 +5621,27 @@ db_gë_èsk_by_èsk_id
 èsk_id
 );
 
-146 
+148 
 db_subèsk_√w
 (
 subèsk_id
 ,
 
-147 
+149 
 öput_d©a_Àn
 ,
 
-148 *
+150 *
 öput_d©a
 ,
 
-149 
+151 
 ru¬ög_èsk
  *
 µ_run_èsk
 );
 
-151 
+153 
 ru¬ög_subèsk
  * 
 db_gë_subèsk_by_subèsk_id
@@ -5325,13 +5649,13 @@ db_gë_subèsk_by_subèsk_id
 subèsk_id
 ,
 
-152 
+154 
 ru¬ög_subèsk
  *
 subèsks_hód
 );
 
-155 
+157 
 db_subèsks_¥öt
 (
 ru¬ög_èsk
@@ -5510,6 +5834,84 @@ buf„r
 }
 
 41 
+	$èsk_ªsu…_h™dÀr
+(
+˛õ¡_öfo_d©a
+ *
+˛õ¡_öfo
+,
+
+42 c⁄° *
+∑ylﬂd
+, c⁄° 
+size_t
+ 
+pyld_size
+, c⁄° 
+pkt_ty≥
+ 
+ty≥
+)
+
+45 
+msg_èsk_ªsu…_∂d
+ *
+ª•_∂d
+;
+
+46 
+ª•_∂d
+ = (*Ë
+∑ylﬂd
+;
+
+48 
+	`¥ötf
+("ReceivedÑesponse forÅask_id: %d, subtask_id: %d"
+
+50 
+ª•_∂d
+->
+ru¬ög_èsk_id
+,
+
+51 
+ª•_∂d
+->
+subèsk_id
+,
+
+52 
+˛õ¡_öfo
+->
+sockë
+,
+
+53 
+ª•_∂d
+->
+°©us
+,
+
+54 
+ª•_∂d
+->
+ouçut
+);
+
+56 
+˛õ¡_öfo
+->
+is_busy
+ = 
+FALSE
+;
+
+58 
+	}
+}
+
+62 
 	$hóπbót_h™dÀr
 (
 ˛õ¡_öfo_d©a
@@ -5517,11 +5919,11 @@ buf„r
 ˛õ¡_öfo
 ,
 
-42 c⁄° *
+63 c⁄° *
 ∑ylﬂd
 )
 
-45 
+66 
 ˛õ¡_öfo
 ->
 hóπbót_ïoch_£c⁄ds
@@ -5531,7 +5933,7 @@ hóπbót_ïoch_£c⁄ds
 ∑ylﬂd
 );
 
-46 
+67 
 	`debug_¥öt_2
 ("˛õ¡_sockë = %d, hóπbóà%ld \n",
 ˛õ¡_öfo
@@ -5541,11 +5943,11 @@ sockë
 hóπbót_ïoch_£c⁄ds
 );
 
-57 
+78 
 	}
 }
 
-59 
+80 
 	$quô_h™dÀr
 (
 ˛õ¡_öfo_d©a
@@ -5553,7 +5955,7 @@ hóπbót_ïoch_£c⁄ds
 ˛õ¡_öfo
 )
 
-61 
+82 
 	}
 }
 

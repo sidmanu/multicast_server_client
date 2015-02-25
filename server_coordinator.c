@@ -39,9 +39,12 @@ server_dispatch_task_to_client(
     }
 
     p_subtask->client = p_client;
+    p_client->is_busy = TRUE;
     p_subtask->status = SUBTASK_DISPATCHED;
     req_pld->len = p_subtask->input_data_len;
     req_pld->subtask_id = p_subtask->subtask_id;
+    req_pld->running_task_id = p_subtask->parent_task_id;
+
     memcpy(req_pld->data, p_subtask->input_data, p_subtask->input_data_len);
     numbytes = pkt_send(p_client->socket, MSG_TASK_ASSIGN, 
 						req_pld, pld_sz);
@@ -110,8 +113,6 @@ int server_task_split(struct running_task *p_rt)
         fflush(stdout);
         offset += chunk_sz;
         db_subtask_new(i, chunk_sz, buf, p_rt);
-        if(i == 12)
-            exit(1);
         i++;
     } while (ret == 0);
 
@@ -121,9 +122,10 @@ int
 server_task_exec(struct running_task *p_run_task, 
 	            struct group_info_node *grp)
 {
- 
+    int ret = 0; 
     struct running_subtask *p_subtask = p_run_task->subtasks_head;
     struct client_info_list_node *client_list_node = grp->members;    
+    struct client_info_data *p_client;
 
     int num_pending = 0;
 
@@ -131,7 +133,13 @@ server_task_exec(struct running_task *p_run_task,
         num_pending = 0;
         while (p_subtask) {
             if (p_subtask->status == SUBTASK_NOT_DISPATCHED) {
-                server_dispatch_task_to_client(p_subtask, client_list_node->data);
+                ret = get_free_client_from_grp(grp, &p_client);
+                if (ret != 0) {
+                    printf("Waiting for at least one client to be free.. :) \n");
+                    continue;
+                }
+
+                server_dispatch_task_to_client(p_subtask, p_client);
                 num_pending++;
             }
             p_subtask = p_subtask->next;
@@ -145,5 +153,22 @@ server_task_exec(struct running_task *p_run_task,
     }
 
     return 0;
+}
+
+int get_free_client_from_grp(struct group_info_node *grp, 
+        struct client_info_data **pp_client)
+{
+    int ret = -1;
+    struct client_info_list_node *p_client_node;
+    p_client_node = grp->members;
+    while (p_client_node) {
+        if (!p_client_node->data->is_busy) {
+            *pp_client = p_client_node->data;
+            printf("Free client: %d\n", p_client_node->data->socket);
+            return 0;
+        }
+        p_client_node = p_client_node->next;
+    }
+    return ret;
 }
 

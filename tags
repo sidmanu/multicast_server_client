@@ -27,21 +27,23 @@ MSG_HELLO	./common_hdr.h	/^	MSG_HELLO = 1,$/;"	e	enum:__anon1
 MSG_JOIN_GRP	./common_hdr.h	/^	MSG_JOIN_GRP,$/;"	e	enum:__anon1
 MSG_QUIT	./common_hdr.h	/^	MSG_QUIT,$/;"	e	enum:__anon1
 MSG_TASK_ASSIGN	./common_hdr.h	/^	MSG_TASK_ASSIGN,$/;"	e	enum:__anon1
-MSG_TASK_DONE	./common_hdr.h	/^	MSG_TASK_DONE,$/;"	e	enum:__anon1
-MSG_TASK_FAIL	./common_hdr.h	/^	MSG_TASK_FAIL,$/;"	e	enum:__anon1
+MSG_TASK_RESULT	./common_hdr.h	/^	MSG_TASK_RESULT,$/;"	e	enum:__anon1
 NOFLAGS	./common_hdr.h	12;"	d
 PACKED	./common_hdr.h	/^} PACKED;$/;"	v	typeref:struct:pkt
-SUBTASK_COMPLETED	./server_db.h	/^    SUBTASK_COMPLETED,$/;"	e	enum:__anon4
-SUBTASK_DISPATCHED	./server_db.h	/^    SUBTASK_DISPATCHED,$/;"	e	enum:__anon4
-SUBTASK_NOT_DISPATCHED	./server_db.h	/^    SUBTASK_NOT_DISPATCHED = 1,$/;"	e	enum:__anon4
-SUBTASK_RUNNING	./server_db.h	/^    SUBTASK_RUNNING,$/;"	e	enum:__anon4
-SUBTASK_TIMED_OUT	./server_db.h	/^    SUBTASK_TIMED_OUT$/;"	e	enum:__anon4
-TASK_ABORTED	./server_db.h	/^    TASK_ABORTED,$/;"	e	enum:__anon3
-TASK_ASSIGNED	./server_db.h	/^    TASK_ASSIGNED,$/;"	e	enum:__anon3
-TASK_COMPLETED	./server_db.h	/^    TASK_COMPLETED$/;"	e	enum:__anon3
-TASK_RUNNING	./server_db.h	/^    TASK_RUNNING,$/;"	e	enum:__anon3
-TASK_SUM	./common_hdr.h	/^	TASK_SUM = 1,$/;"	e	enum:__anon2
-TASK_UNASSIGNED	./server_db.h	/^    TASK_UNASSIGNED = 1,$/;"	e	enum:__anon3
+STATUS_ABORTED	./common_hdr.h	/^	STATUS_ABORTED,$/;"	e	enum:__anon2
+STATUS_FAILURE	./common_hdr.h	/^	STATUS_FAILURE,$/;"	e	enum:__anon2
+STATUS_SUCCESS	./common_hdr.h	/^	STATUS_SUCCESS = 0,$/;"	e	enum:__anon2
+SUBTASK_COMPLETED	./server_db.h	/^    SUBTASK_COMPLETED,$/;"	e	enum:__anon5
+SUBTASK_DISPATCHED	./server_db.h	/^    SUBTASK_DISPATCHED,$/;"	e	enum:__anon5
+SUBTASK_NOT_DISPATCHED	./server_db.h	/^    SUBTASK_NOT_DISPATCHED = 1,$/;"	e	enum:__anon5
+SUBTASK_RUNNING	./server_db.h	/^    SUBTASK_RUNNING,$/;"	e	enum:__anon5
+SUBTASK_TIMED_OUT	./server_db.h	/^    SUBTASK_TIMED_OUT$/;"	e	enum:__anon5
+TASK_ABORTED	./server_db.h	/^    TASK_ABORTED,$/;"	e	enum:__anon4
+TASK_ASSIGNED	./server_db.h	/^    TASK_ASSIGNED,$/;"	e	enum:__anon4
+TASK_COMPLETED	./server_db.h	/^    TASK_COMPLETED$/;"	e	enum:__anon4
+TASK_RUNNING	./server_db.h	/^    TASK_RUNNING,$/;"	e	enum:__anon4
+TASK_SUM	./common_hdr.h	/^	TASK_SUM = 1,$/;"	e	enum:__anon3
+TASK_UNASSIGNED	./server_db.h	/^    TASK_UNASSIGNED = 1,$/;"	e	enum:__anon4
 TRUE	./common_hdr.h	/^	TRUE = 1,$/;"	e	enum:truth_vals
 _CAPS_SERVER_H	./server.h	2;"	d
 _CLIENT_H	./client.h	2;"	d
@@ -88,6 +90,7 @@ exec_choice	./server_tasks.c	/^exec_choice(int choice)$/;"	f	file:
 file_exists	./server_tasks.c	/^static int file_exists (const char *filename)$/;"	f	file:
 free	./common_hdr.h	/^	enum truth_vals free;$/;"	m	struct:msg_chk_free_resp_pld	typeref:enum:msg_chk_free_resp_pld::truth_vals
 get_epochseconds_now	./common_hdr.h	/^static inline long int get_epochseconds_now(void)$/;"	f
+get_free_client_from_grp	./server_coordinator.c	/^int get_free_client_from_grp(struct group_info_node *grp, $/;"	f
 get_in_addr	./client.c	/^*get_in_addr(struct sockaddr *sa)$/;"	f	file:
 get_next_chunk	./common_utils.c	/^int get_next_chunk(char *input_file_name, int offset,$/;"	f
 global_db	./server_db.h	/^struct global_db {$/;"	s
@@ -118,6 +121,7 @@ input_data_len	./server_db.h	/^    int input_data_len;$/;"	m	struct:running_subt
 input_file	./server_db.h	/^	char input_file[MAXFILENAME];	$/;"	m	struct:input_task
 input_file	./server_db.h	/^	char input_file[MAXFILENAME];$/;"	m	struct:running_task
 input_task	./server_db.h	/^struct input_task {$/;"	s
+is_busy	./server_db.h	/^    bool is_busy;$/;"	m	struct:client_info_data
 join_grps	./client.c	/^static void join_grps(int *grp_list, int grp_list_len)$/;"	f	file:
 join_handler	./server_pkt_handlers.c	/^void join_handler(struct client_info_data *client_info,$/;"	f
 len	./common_hdr.h	/^	size_t	 len;$/;"	m	struct:pkt
@@ -140,7 +144,7 @@ next	./server_db.h	/^    struct running_subtask *next;$/;"	m	struct:running_subt
 next	./server_db.h	/^    struct running_task *next;$/;"	m	struct:running_task	typeref:struct:running_task::running_task
 num_clients	./server_db.h	/^    int num_clients;$/;"	m	struct:running_task
 num_members	./server_db.h	/^    int num_members;$/;"	m	struct:group_info_node
-output	./common_hdr.h	/^    int output;$/;"	m	struct:msg_task_result_pld
+output	./common_hdr.h	/^    long output;$/;"	m	struct:msg_task_result_pld
 parent_task_id	./server_db.h	/^    int parent_task_id;$/;"	m	struct:running_subtask
 periodic_print_thread_fn	./server_threads.c	/^void *periodic_print_thread_fn(void *t_args)$/;"	f
 periodic_thread	./server.c	/^pthread_t periodic_thread;$/;"	v
@@ -157,33 +161,37 @@ quit_handler	./server_pkt_handlers.c	/^void quit_handler(struct client_info_data
 run_task_sum_csv	./server_tasks.c	/^run_task_sum_csv()$/;"	f	file:
 running_subtask	./server_db.h	/^struct running_subtask {$/;"	s
 running_task	./server_db.h	/^struct running_task {$/;"	s
+running_task_id	./common_hdr.h	/^    int running_task_id;$/;"	m	struct:msg_task_assign_pld
+running_task_id	./common_hdr.h	/^    int running_task_id;$/;"	m	struct:msg_task_result_pld
 server_dispatch_task_to_client	./server_coordinator.c	/^server_dispatch_task_to_client($/;"	f
 server_dist_task_to_clients	./server_coordinator.c	/^server_dist_task_to_clients(const int grp_id,$/;"	f
 server_sockfd	./server.c	/^int server_sockfd;$/;"	v
-server_task_exec	./server_coordinator.c	/^server_task_exec(struct running_subtask *p_subtask, struct client_info_data *p_client_data)$/;"	f
+server_task_exec	./server_coordinator.c	/^server_task_exec(struct running_task *p_run_task, $/;"	f
 server_task_split	./server_coordinator.c	/^int server_task_split(struct running_task *p_rt)$/;"	f
 sigint_handler	./client.c	/^sigint_handler(int s)$/;"	f	file:
 socket	./server_db.h	/^	int socket;$/;"	m	struct:client_info_data
 sockfd	./client.c	/^int sockfd;$/;"	v
 start_time	./server_db.h	/^	time_t start_time;$/;"	m	struct:running_subtask
 start_time	./server_db.h	/^	time_t start_time;$/;"	m	struct:running_task
-status	./common_hdr.h	/^    int status; $/;"	m	struct:msg_task_result_pld
+status	./common_hdr.h	/^    status_code_t status; $/;"	m	struct:msg_task_result_pld
 status	./server_db.h	/^    subtask_status_t status;$/;"	m	struct:running_subtask
 status	./server_db.h	/^    task_status_t status;$/;"	m	struct:running_task
+status_code_t	./common_hdr.h	/^} status_code_t;$/;"	t	typeref:enum:__anon2
 subtask_id	./common_hdr.h	/^    int subtask_id;$/;"	m	struct:msg_task_assign_pld
 subtask_id	./common_hdr.h	/^    int subtask_id;$/;"	m	struct:msg_task_result_pld
 subtask_id	./server_db.h	/^    int subtask_id;$/;"	m	struct:running_subtask
-subtask_status_t	./server_db.h	/^} subtask_status_t ;$/;"	t	typeref:enum:__anon4
+subtask_status_t	./server_db.h	/^} subtask_status_t ;$/;"	t	typeref:enum:__anon5
 subtasks_head	./server_db.h	/^    struct running_subtask *subtasks_head;$/;"	m	struct:running_task	typeref:struct:running_task::running_subtask
 task_counter	./server_coordinator.c	/^static int task_counter;$/;"	v	file:
 task_id	./common_hdr.h	/^	int task_id;$/;"	m	struct:msg_chk_free_pld
 task_id	./server_db.h	/^	int task_id;$/;"	m	struct:running_task
 task_list	./server_db.h	/^    struct running_task *task_list;$/;"	m	struct:global_db	typeref:struct:global_db::running_task
 task_menu	./server_tasks.c	/^void task_menu()$/;"	f
+task_result_handler	./server_pkt_handlers.c	/^void task_result_handler(struct client_info_data *client_info,$/;"	f
 task_split	./server_coordinator.c	/^static int task_split(const struct running_task *rt)$/;"	f	file:
-task_status_t	./server_db.h	/^} task_status_t ;$/;"	t	typeref:enum:__anon3
+task_status_t	./server_db.h	/^} task_status_t ;$/;"	t	typeref:enum:__anon4
 task_type	./server_db.h	/^	task_type_t task_type;$/;"	m	struct:running_task
-task_type_t	./common_hdr.h	/^} task_type_t;$/;"	t	typeref:enum:__anon2
+task_type_t	./common_hdr.h	/^} task_type_t;$/;"	t	typeref:enum:__anon3
 truth_vals	./common_hdr.h	/^enum truth_vals{$/;"	g
 type	./common_hdr.h	/^	pkt_type type;$/;"	m	struct:pkt
 user_interactor_thread	./server.c	/^pthread_t user_interactor_thread;$/;"	v

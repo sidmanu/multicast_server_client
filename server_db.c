@@ -243,7 +243,7 @@ int db_subtask_new(int subtask_id,
         p_run_task->subtasks_head = new;
     }
 
-    debug_print("\nCreated new sub task. "
+    debug_print_2("\nCreated new sub task. "
             "subtask_id: %d, parent_task_id = %d, input_data = %s\n",
                 new->subtask_id, new->parent_task_id, new->input_data);
 

@@ -37,6 +37,27 @@ void hello_handler(struct client_info_data *client_info,
 	strcat(client_info->buffer, ", ");
 }
 
+
+void task_result_handler(struct client_info_data *client_info,
+		const void *payload, const size_t pyld_size, const pkt_type type)
+{
+    
+    struct msg_task_result_pld *resp_pld;
+    resp_pld = (void*) payload;
+
+    printf("Received response for task_id: %d, subtask_id: %d"
+            " from client %d, status: %d, sum: %ld\n", 
+            resp_pld->running_task_id,
+            resp_pld->subtask_id,
+            client_info->socket,
+            resp_pld->status,
+            resp_pld->output);
+
+    client_info->is_busy = FALSE;
+
+}
+
+
 /*chaitanya : handler to handle client heartbeat messages*/
 void heartbeat_handler(struct client_info_data *client_info, 
         const char *payload)

@@ -32,16 +32,32 @@ msg_task_assign_handler(
 			const pkt_type type)
 {
     struct msg_task_assign_pld *task_pld;
+    struct msg_task_result_pld *resp_pld;
+
+    int pld_sz, numbytes;
+	long sum;
+
     task_pld = (void *)payload;
 
-	long sum;
 
     printf("Received a subtask. subtask_id: %d\n", task_pld->subtask_id );
     printf("data: %s\n", task_pld->data); 
 
 	sum = do_work_sum_csv(task_pld->data);
+    pld_sz = sizeof(struct msg_task_result_pld);
+    resp_pld = malloc(pld_sz);
+    memset(resp_pld, 0, sizeof(*resp_pld));
 
+    resp_pld->status = STATUS_SUCCESS;
+    resp_pld->subtask_id = task_pld->subtask_id;
+    resp_pld->running_task_id = task_pld->running_task_id;
+    resp_pld->output = sum;
+
+    numbytes = pkt_send(sockfd, MSG_TASK_RESULT, 
+						resp_pld, pld_sz);
 	printf("Sum: %ld\n", sum);
+
+    free(resp_pld);
     
 }
 

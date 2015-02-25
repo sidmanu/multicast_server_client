@@ -4,6 +4,7 @@
 
 #include <time.h>
 #include "server.h" 
+#include "stdbool.h"
 
 /* Global data structure */
 extern struct global_db db; 
@@ -24,6 +25,7 @@ struct client_info_data {
     char hostname[MAXHOSTNAME];
 	int port; 
 	int pkt_count;
+    bool is_busy;
 	char buffer[MAXBUFFER];
 	/* TODO: Add a list of pointers to group it belongs to. 
 		so that we don't have to go through all groups in order to 

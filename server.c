@@ -144,6 +144,10 @@ handle_client_recv(fd_set *master, int sock_id)
                 hello_handler(client_info, rx_buffer, rx_sz, type);
                 break;
             /*chaitanya : to handle heartbeat messages fromt he client*/
+
+            case MSG_TASK_RESULT:
+                task_result_handler(client_info, rx_buffer, rx_sz, type);
+                break;
             case MSG_HEARTBEAT:
                 heartbeat_handler(client_info, rx_buffer);
                 break;
