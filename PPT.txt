@@ -1,12 +1,7 @@
 
 
-Let us write down a list of things we wanna put in the slides. Let us not have a slide-deck of more than 10 slides. What say?
+---------Total 11 slides ----------------
 
-Chaitanya's answer: [Y/N] - - - ? ? ?
-
-Not a valid answer :P anyways
-
----------Total 10 slides ----------------
 - Our Approach philosophy
     - Modular code
     - Keep it simple
