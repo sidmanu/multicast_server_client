@@ -43,7 +43,7 @@ void heartbeat_handler(struct client_info_data *client_info,
 {
     //TODO : chaitanya - in the group list also update the heartbeat 
     client_info->heartbeat_epoch_seconds = (long int) atoi(payload);
-    debug_print_2("client_socket = %d, heartbeat = %d \n",client_info->socket, client_info->heartbeat_epoch_seconds); 
+    debug_print_2("client_socket = %d, heartbeat = %ld \n",client_info->socket, client_info->heartbeat_epoch_seconds); 
     /*
     client_heartbeat_info *node;
     node = search_client_heartbeat_info(head, client_sockfd);

@@ -38,6 +38,8 @@ server_dispatch_task_to_client(
         assert(0);
     }
 
+    p_subtask->client = p_client;
+    p_subtask->status = SUBTASK_DISPATCHED;
     req_pld->len = p_subtask->input_data_len;
     req_pld->subtask_id = p_subtask->subtask_id;
     memcpy(req_pld->data, p_subtask->input_data, p_subtask->input_data_len);
@@ -48,6 +50,11 @@ server_dispatch_task_to_client(
     }	
 
     //TODO: We need to wait for the asynchronous response for this.
+
+    printf("Dispatched subtask p_subtask->parent_task_id - %d, p_subtask->subtask_id - %d to Client-id: %d\n", 
+        p_subtask->parent_task_id,
+        p_subtask->subtask_id,
+        p_client->socket);
 
     free(req_pld);
     return 0;
@@ -81,21 +88,8 @@ server_dist_task_to_clients(const int grp_id,
 
     //breaks our task into subtasks, but doesn't deploy them yet
     server_task_split(p_run_task); 
-
     db_subtasks_print(p_run_task);
-
-    struct running_subtask *p_subtask = p_run_task->subtasks_head;
-	for (client_list_node = grp->members;
-            client_list_node != NULL; 
-            client_list_node = client_list_node->next) {
-        grp_clients_count += 1;
-        printf("Client-id: %d, ", client_list_node->data->socket);
-        server_task_exec(p_subtask, client_list_node->data);
-        p_subtask = p_subtask->next;
-        p_subtask->client = client_list_node->data;
-    }
-
-    //server_task_exec(p_run_task);
+    server_task_exec(p_run_task, grp);
 
 	return 0;
 }
@@ -104,7 +98,7 @@ int server_task_split(struct running_task *p_rt)
 {
     
     char *filename = p_rt->input_file;
-    char buf[MAXCHUNKSIZE+2];
+    char buf[MAXCHUNKSIZE];
     int chunk_sz;
     int offset = 0;
     int ret;
@@ -112,19 +106,44 @@ int server_task_split(struct running_task *p_rt)
     do {
         
         ret = get_next_chunk(filename, offset, &chunk_sz, buf);
-        printf("\nNext chunk: i %d offset %d \"%s\"",i, offset, buf);
+        //printf("\nNext chunk: i = %d offset = %d, ret =  %d , buf = '%s'",i, offset, ret, buf);
+        fflush(stdout);
         offset += chunk_sz;
         db_subtask_new(i, chunk_sz, buf, p_rt);
+        if(i == 12)
+            exit(1);
         i++;
     } while (ret == 0);
 
 }
 
 int 
-server_task_exec(struct running_subtask *p_subtask, struct client_info_data *p_client_data)
+server_task_exec(struct running_task *p_run_task, 
+	            struct group_info_node *grp)
 {
-    //TODO: log info about this task being dispatched, start a timer, etc
-    server_dispatch_task_to_client(p_subtask, p_client_data);
+ 
+    struct running_subtask *p_subtask = p_run_task->subtasks_head;
+    struct client_info_list_node *client_list_node = grp->members;    
+
+    int num_pending = 0;
+
+    while (1) {
+        num_pending = 0;
+        while (p_subtask) {
+            if (p_subtask->status == SUBTASK_NOT_DISPATCHED) {
+                server_dispatch_task_to_client(p_subtask, client_list_node->data);
+                num_pending++;
+            }
+            p_subtask = p_subtask->next;
+        }
+        
+        if (num_pending == 0) {
+            printf("All Subtasks complete for running_task: %d\n", p_run_task->task_id);
+            break;
+        }
+        p_subtask = p_run_task->subtasks_head;
+    }
+
     return 0;
 }
 

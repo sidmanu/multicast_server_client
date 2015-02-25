@@ -49,33 +49,32 @@ int get_next_chunk(char *input_file_name, int offset,
 
 	FILE *f;
     int DELTA = 10;
-    char buf[MAXCHUNKSIZE];
+    char buf[MAXCHUNKSIZE + 1] = {'\0'};
     int cur_len;
-
+    int ret = 0;
+    int index;
     f = fopen(input_file_name, "r");
     fseek(f, offset, SEEK_SET);
-    cur_len = fread(buf, 1, MAXCHUNKSIZE, f);
-    if (cur_len < MAXCHUNKSIZE)
-        goto non_clean;
+    cur_len = fread(buf, sizeof(char), MAXCHUNKSIZE, f);
 
     //trim from the fag end till we reach a comma
-    while (cur_len > 0) {
-        cur_len--;
-        if (buf[cur_len - 1] == ',')
-            break;
-    }
-
-    *chunk_size = cur_len;
-    printf("string length : %d", *chunk_size);
+    //for a properly terminated number
+    if(buf == NULL || buf[0] == '\0')
+        return -1;
     buf[cur_len] = '\0';
-    strcpy(p_string_chunk, buf);
+    index = cur_len - 1;
+    while (index > 0 && (cur_len + 1) == MAXCHUNKSIZE) {
+        if (buf[index] == ',')
+            break;
+        index--;
+    }
+    if(buf[index] == '\n') {
+        ret = -1;
+    }
+    *chunk_size = cur_len = index;
+    strncpy(p_string_chunk, buf,cur_len);
 
     fclose(f);
-    return 0;
-
-non_clean:
-    printf("\n\n#### NON CLEAN #### \n");
-    fclose(f);
-    return -1;
+    return ret;
 }
 

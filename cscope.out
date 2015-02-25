@@ -1,4 +1,4 @@
-cscope 15 /nobackup/chagoyal/system_programming_phase3/multicast_server_client -q 0000000388 0000032103
+cscope 15 /nobackup/chagoyal/multicast_server_client -q 0000000399 0000033348
 	@client.c
 
 1 
@@ -727,15 +727,19 @@ sockfd
 	~"comm⁄_hdr.h
 "
 
-5 
+4 
+	~"˛õ¡_w‹k.h
+"
+
+6 
 	~<±hªad.h
 >
 
-8 
+9 
 	$msg_chk_‰ì_h™dÀr
 (
 
-9 c⁄° *
+10 c⁄° *
 ∑ylﬂd
 , c⁄° 
 size_t
@@ -743,21 +747,21 @@ size_t
 pyld_size
 ,
 
-10 c⁄° 
+11 c⁄° 
 pkt_ty≥
  
 ty≥
 )
 
-13 
+14 
 numbyãs
 ;
 
-15 i‡(
+16 i‡(
 busy_°©e
 ) {
 
-16 
+17 
 numbyãs
  = 
 	`pkt_£nd
@@ -765,13 +769,13 @@ numbyãs
 sockfd
 ,
 
-17 
+18 
 MSG_FREE_NOK
 , 
 NULL
 , 0);
 
-19 
+20 
 numbyãs
  = 
 	`pkt_£nd
@@ -779,57 +783,127 @@ numbyãs
 sockfd
 ,
 
-20 
+21 
 MSG_FREE_OK
 , 
 NULL
 , 0);
 
-22 i‡(-1 =
+23 i‡(-1 =
 numbyãs
 ) {
 
-23 
+24 
 	`≥º‹
 ("send");
 
-26 
+27 
 	}
 }
 
-29 *
+30 
+	$msg_èsk_assign_h™dÀr
+(
+
+31 c⁄° *
+∑ylﬂd
+, c⁄° 
+size_t
+ 
+pyld_size
+,
+
+32 c⁄° 
+pkt_ty≥
+ 
+ty≥
+)
+
+34 
+msg_èsk_assign_∂d
+ *
+èsk_∂d
+;
+
+35 
+èsk_∂d
+ = (*)
+∑ylﬂd
+;
+
+37 
+sum
+;
+
+39 
+	`¥ötf
+("Re˚ivedá subèsk. subèsk_id: %d\n", 
+èsk_∂d
+->
+subèsk_id
+ );
+
+40 
+	`¥ötf
+("d©a: %s\n", 
+èsk_∂d
+->
+d©a
+);
+
+42 
+sum
+ = 
+	`do_w‹k_sum_csv
+(
+èsk_∂d
+->
+d©a
+);
+
+44 
+	`¥ötf
+("Sum: %ld\n", 
+sum
+);
+
+46 
+	}
+}
+
+48 *
 	$˛õ¡_ªcv_thªad_‚
 (*
 t_¨gs
 )
 
-31 *
+50 *
 rx_buf„r
  = 
 NULL
 ;
 
-32 
+51 
 size_t
  
 rx_sz
 ;
 
-33 
+52 
 pkt_ty≥
  
 ty≥
 ;
 
-34 
+53 
 ªt
 ;
 
-38 
+57 
 	`debug_¥öt
 ("recv from server socket %s", "");
 
-39 
+58 
 ªt
  = 
 	`pkt_ªcv
@@ -843,25 +917,25 @@ rx_sz
 ty≥
 );
 
-40 i‡(-1 =
+59 i‡(-1 =
 ªt
  || !
 rx_buf„r
 ) {
 
-41 
+60 
 	`≥º‹
  ("recv");
 
-45 
+64 
 ty≥
 ) {
 
-46 
+65 
 MSG_CHK_FREE
 :
 
-47 
+66 
 	`msg_chk_‰ì_h™dÀr
 (
 rx_buf„r
@@ -871,63 +945,71 @@ rx_sz
 ty≥
 );
 
-48 
-	`±hªad_exô
+68 
+MSG_TASK_ASSIGN
+:
+
+69 
+	`msg_èsk_assign_h™dÀr
 (
-NULL
+rx_buf„r
+, 
+rx_sz
+, 
+ty≥
 );
 
-50 
+73 
 	`¥ötf
 ("\nUnexpected message!!!");
 
-52 
+75 
 	`‰ì
 (
 rx_buf„r
 );
 
-54 
+77 
 	`±hªad_exô
 (
 NULL
 );
 
-56 
+78 
 	}
 }
 
-58 *
+80 *
 	$˛õ¡_hóπbót_thªad_‚
 (*
 t_¨gs
 )
 
-62 
+84 
 	`¶ìp
 (3);
 
-63 
+85 
 numbyãs
  = 0;
 
-64 
+86 
 buf
 [
 MAXBUFFER
 ];
 
-65 
+87 
 time_t
  
 now
 ;
 
-68 
+90 
 buf_ãmp
 [80];
 
-70 
+92 
 	`°r·ime
 (
 buf_ãmp
@@ -935,25 +1017,25 @@ buf_ãmp
 ts
 );
 
-71 
+93 
 	`debug_¥öt_2
 ("%s\n", 
 buf_ãmp
 );
 
-73 
+95 
 now
  = 
 	`gë_ïoch£c⁄ds_now
 ();
 
-74 
+96 
 	`debug_¥öt_2
 ("Epoch: %ld\n", (Ë
 now
 );
 
-75 
+97 
 	`•rötf
 (
 buf
@@ -961,7 +1043,7 @@ buf
 now
 );
 
-77 
+99 
 numbyãs
  = 
 	`pkt_£nd
@@ -975,21 +1057,21 @@ buf
 	`°æí
 (buf));
 
-78 i‡(-1 =
+100 i‡(-1 =
 numbyãs
 )
 
-80 
+102 
 	`≥º‹
 ("send");
 
-83 
+105 
 	`±hªad_exô
 (
 NULL
 );
 
-84 
+106 
 	}
 }
 
@@ -1041,6 +1123,162 @@ t_¨gs
 ˛õ¡_hóπbót_thªad_‚
 (*
 t_¨gs
+);
+
+	@client_work.c
+
+1 
+	~<°dio.h
+>
+
+2 
+	~<°rög.h
+>
+
+4 
+	~"comm⁄_hdr.h
+"
+
+5 
+	~"˛õ¡.h
+"
+
+6 
+	~"˛õ¡_w‹k.h
+"
+
+9 
+	$do_w‹k_sum_csv
+(*
+csv_°r
+)
+
+11 
+size_t
+ 
+fõld_Àn
+;
+
+12 c⁄° *
+s
+ = 
+csv_°r
+;
+
+13 c⁄° 
+dñims
+[] = ",";
+
+14 
+num_°rög
+[10];
+
+15 
+sum
+ = 0;
+
+16 
+num
+;
+
+19 
+fõld_Àn
+ = 
+	`°rc•n
+(
+s
+, 
+dñims
+);
+
+21 
+	`°∫˝y
+(
+num_°rög
+, 
+s
+, 
+fõld_Àn
+);
+
+22 
+num_°rög
+[
+fõld_Àn
+] = '\0';
+
+23 
+num
+ = 
+	`©oi
+(
+num_°rög
+);
+
+24 
+sum
+ +
+num
+;
+
+25 
+	`debug_¥öt_2
+("\¬um_°rög: %s,Çum: %d", 
+num_°rög
+, 
+num
+);
+
+26 
+	`debug_¥öt_3
+("\"%.*s\"\n", ()
+fõld_Àn
+, 
+s
+);
+
+27 
+s
+ +
+fõld_Àn
+;
+
+28 } *
+s
+++);
+
+30  
+sum
+;
+
+31 
+	}
+}
+
+	@client_work.h
+
+1 #i‚de‡
+_CLIENT_WORK_H
+
+
+2 
+	#_CLIENT_WORK_H
+
+
+	)
+
+4 
+	~<°dlib.h
+>
+
+5 
+	~"comm⁄_hdr.h
+"
+
+8 
+do_w‹k_sum_csv
+(*
+°rög
 );
 
 	@common_hdr.h
@@ -3125,15 +3363,17 @@ numbyãs
 ∂d_sz
 ;
 
-33 
+34 
 ∂d_sz
  = (
 msg_èsk_assign_∂d
 Ë+ 
-subèsk_öput_Àn
+p_subèsk
+->
+öput_d©a_Àn
 ;
 
-34 
+35 
 ªq_∂d
  = 
 	`mÆloc
@@ -3141,123 +3381,129 @@ subèsk_öput_Àn
 ∂d_sz
 );
 
-35 i‡(!
+36 i‡(!
 ªq_∂d
 ) {
 
-36 
+37 
 	`debug_¥öt
 ("ServerÑan out of memory!");
 
-37 
+38 
 	`as£π
 (0);
-
-40 
-ªq_∂d
-->
-Àn
- = 
-subèsk_öput_Àn
-;
 
 41 
 ªq_∂d
 ->
-subèsk_id
- = subtask_id;
+Àn
+ = 
+p_subèsk
+->
+öput_d©a_Àn
+;
 
 42 
+ªq_∂d
+->
+subèsk_id
+ = 
+p_subèsk
+->subtask_id;
+
+43 
 	`mem˝y
 (
 ªq_∂d
 ->
 d©a
 , 
-subèsk_d©a
-, 
-subèsk_öput_Àn
+p_subèsk
+->
+öput_d©a
+,Ö_subèsk->
+öput_d©a_Àn
 );
 
-43 
+44 
 numbyãs
  = 
 	`pkt_£nd
 (
-˛_node
+p_˛õ¡
 ->
 sockë
 , 
 MSG_TASK_ASSIGN
 ,
 
-44 
+45 
 ªq_∂d
 , 
 ∂d_sz
 );
 
-45 i‡(
+46 i‡(
 numbyãs
  == -1) {
 
-46 
+47 
 	`¥ötf
 ("Error in sending MSG_TASK_ASSIGN");
 
-51 
+52 
 	`‰ì
 (
 ªq_∂d
 );
 
-53 
+54 
 	}
 }
 
-56 
+57 
 	$£rvî_di°_èsk_to_˛õ¡s
 (c⁄° 
 gΩ_id
 ,
 
-57  c⁄° 
+58  c⁄° 
 öput_èsk
  *input_task)
 
-59 
+60 
 group_öfo_node
  *
 gΩ
 ;
 
-60 
+61 
 ˛õ¡_öfo_li°_node
  *
 ˛õ¡_li°_node
 ;
 
-61 
+62 
 ru¬ög_èsk
  *
 p_run_èsk
 ;
 
-62 
+63 
 gΩ_˛õ¡s_cou¡
  = 0;
 
-63 
+64 
 °©us
 ;
 
-66 
+67 
 	`¥ötf
 ("%s: group: %d, i≈ut_fûe: %s\n", 
 __FUNCTION__
 ,
 
-67 
+68 
 gΩ_id
 , 
 öput_èsk
@@ -3265,7 +3511,7 @@ gΩ_id
 öput_fûe
 );
 
-69 
+70 
 gΩ
  = 
 	`db_gë_group_by_gΩ_id
@@ -3273,21 +3519,21 @@ gΩ
 gΩ_id
 );
 
-70 i‡(!
+71 i‡(!
 gΩ
 ) {
 
-71 
+72 
 	`¥ötf
 ("Invalid group!\n");
 
-75 
+76 
 èsk_cou¡î
  = (èsk_cou¡î + 1Ë% 
 INT_MAX
 ;
 
-76 
+77 
 °©us
  = 
 	`db_èsk_√w
@@ -3303,29 +3549,29 @@ TASK_SUM
 p_run_èsk
 );
 
-77 i‡(
+78 i‡(
 °©us
  !0 || !
 p_run_èsk
 ) {
 
-78 
+79 
 	`¥ötf
 ("Couldn'tássignÇewÅask!");
 
-82 
+83 
 	`£rvî_èsk_•lô
 (
 p_run_èsk
 );
 
-84 
+85 
 	`db_subèsks_¥öt
 (
 p_run_èsk
 );
 
-86 
+87 
 ru¬ög_subèsk
  *
 p_subèsk
@@ -3335,7 +3581,7 @@ p_run_èsk
 subèsks_hód
 ;
 
-87 
+88 
 ˛õ¡_li°_node
  = 
 gΩ
@@ -3343,23 +3589,23 @@ gΩ
 membîs
 ;
 
-88 
+89 
 ˛õ¡_li°_node
  !
 NULL
 ;
 
-89 
+90 
 ˛õ¡_li°_node
  = clõ¡_li°_node->
 √xt
 ) {
 
-90 
+91 
 gΩ_˛õ¡s_cou¡
  += 1;
 
-91 
+92 
 	`¥ötf
 ("Clõ¡-id: %d, ", 
 ˛õ¡_li°_node
@@ -3369,7 +3615,7 @@ d©a
 sockë
 );
 
-92 
+93 
 	`£rvî_èsk_exec
 (
 p_subèsk
@@ -3379,13 +3625,13 @@ p_subèsk
 d©a
 );
 
-93 
+94 
 p_subèsk
  =Ö_subèsk->
 √xt
 ;
 
-94 
+95 
 p_subèsk
 ->
 ˛õ¡
@@ -3395,11 +3641,11 @@ p_subèsk
 d©a
 ;
 
-100 
+101 
 	}
 }
 
-102 
+103 
 	$£rvî_èsk_•lô
 (
 ru¬ög_èsk
@@ -3407,7 +3653,7 @@ ru¬ög_èsk
 p_π
 )
 
-105 *
+106 *
 fûíame
  = 
 p_π
@@ -3415,29 +3661,29 @@ p_π
 öput_fûe
 ;
 
-106 
+107 
 buf
 [
 MAXCHUNKSIZE
 +2];
 
-107 
+108 
 chunk_sz
 ;
 
-108 
+109 
 off£t
  = 0;
 
-109 
+110 
 ªt
 ;
 
-110 
+111 
 i
  = 0;
 
-113 
+114 
 ªt
  = 
 	`gë_√xt_chunk
@@ -3451,7 +3697,7 @@ chunk_sz
 buf
 );
 
-114 
+115 
 	`¥ötf
 ("\nNexàchunk: i %d off£à%d \"%s\"",
 i
@@ -3461,13 +3707,13 @@ off£t
 buf
 );
 
-115 
+116 
 off£t
  +
 chunk_sz
 ;
 
-116 
+117 
 	`db_subèsk_√w
 (
 i
@@ -3479,19 +3725,19 @@ buf
 p_π
 );
 
-117 
+118 
 i
 ++;
 
-118 } 
+119 } 
 ªt
  == 0);
 
-120 
+121 
 	}
 }
 
-123 
+124 
 	$£rvî_èsk_exec
 (
 ru¬ög_subèsk
@@ -3503,7 +3749,7 @@ p_subèsk
 p_˛õ¡_d©a
 )
 
-126 
+127 
 	`£rvî_di•©ch_èsk_to_˛õ¡
 (
 p_subèsk
@@ -3511,7 +3757,7 @@ p_subèsk
 p_˛õ¡_d©a
 );
 
-128 
+129 
 	}
 }
 
@@ -5287,7 +5533,7 @@ hóπbót_ïoch_£c⁄ds
 
 46 
 	`debug_¥öt_2
-("˛õ¡_sockë = %d, hóπbóà%d \n",
+("˛õ¡_sockë = %d, hóπbóà%ld \n",
 ˛õ¡_öfo
 ->
 sockë
@@ -6045,12 +6291,14 @@ node
 1
 .
 0
-17
-265
+19
+293
 client.c
 client.h
 client_pkt_handlers.c
 client_pkt_handlers.h
+client_work.c
+client_work.h
 common_hdr.h
 common_utils.c
 common_utils.h

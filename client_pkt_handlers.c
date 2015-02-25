@@ -1,6 +1,7 @@
 #include "client_pkt_handlers.h"
 #include "client.h"
 #include "common_hdr.h"
+#include "client_work.h"
 
 #include <pthread.h>
 
@@ -33,8 +34,14 @@ msg_task_assign_handler(
     struct msg_task_assign_pld *task_pld;
     task_pld = (void *)payload;
 
+	long sum;
+
     printf("Received a subtask. subtask_id: %d\n", task_pld->subtask_id );
     printf("data: %s\n", task_pld->data); 
+
+	sum = do_work_sum_csv(task_pld->data);
+
+	printf("Sum: %ld\n", sum);
     
 }
 

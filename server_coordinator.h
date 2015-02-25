@@ -6,9 +6,8 @@
 int
 server_dist_task_to_clients(const int grp_id,
 			/* IN */ const struct input_task *task_info);
-
-
-int server_task_exec(struct running_subtask *subtask, struct client_info_data *client);
+int
+server_task_exec(struct running_task *p_run_task, struct group_info_node *grp);
 
 /* split the task into chunks and deploy subtasks */
 int server_task_split(struct running_task *p_rt);

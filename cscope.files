@@ -1,9 +1,11 @@
 ./common_utils.h
+./client_work.c
 ./server.h
 ./server_threads.c
 ./client_pkt_handlers.c
 ./common_hdr.h
 ./server_pkt_handlers.c
+./client_work.h
 ./server_db.h
 ./client.c
 ./client.h

@@ -46,6 +46,7 @@ TRUE	./common_hdr.h	/^	TRUE = 1,$/;"	e	enum:truth_vals
 _CAPS_SERVER_H	./server.h	2;"	d
 _CLIENT_H	./client.h	2;"	d
 _CLIENT_PKT_HANDLERS_H	./client_pkt_handlers.h	2;"	d
+_CLIENT_WORK_H	./client_work.h	2;"	d
 _COMMON_HDR_H	./common_hdr.h	2;"	d
 _SERVER_COORDINATOR_H	./server_coordinator.h	2;"	d
 _SERVER_DB_H	./server_db.h	2;"	d
@@ -80,6 +81,7 @@ debug_print	./common_hdr.h	26;"	d
 debug_print_2	./common_hdr.h	31;"	d
 debug_print_3	./common_hdr.h	35;"	d
 desc	./server_db.h	/^	char desc[MAXDESC];$/;"	m	struct:running_task
+do_work_sum_csv	./client_work.c	/^do_work_sum_csv(char *csv_str)$/;"	f
 end_time	./server_db.h	/^	time_t end_time;$/;"	m	struct:running_subtask
 end_time	./server_db.h	/^	time_t end_time;$/;"	m	struct:running_task
 exec_choice	./server_tasks.c	/^exec_choice(int choice)$/;"	f	file:
@@ -128,6 +130,7 @@ msg_chk_free_handler	./client_pkt_handlers.c	/^msg_chk_free_handler($/;"	f
 msg_chk_free_pld	./common_hdr.h	/^struct msg_chk_free_pld {$/;"	s
 msg_chk_free_resp_pld	./common_hdr.h	/^struct msg_chk_free_resp_pld {$/;"	s
 msg_join_grp_pld	./common_hdr.h	/^struct msg_join_grp_pld {$/;"	s
+msg_task_assign_handler	./client_pkt_handlers.c	/^msg_task_assign_handler($/;"	f
 msg_task_assign_pld	./common_hdr.h	/^struct msg_task_assign_pld {$/;"	s
 msg_task_result_pld	./common_hdr.h	/^struct msg_task_result_pld {$/;"	s
 new_connection	./server.c	/^new_connection(fd_set *master_fds, int *fdmax)$/;"	f	file:
